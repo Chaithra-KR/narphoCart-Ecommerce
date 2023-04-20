@@ -1,0 +1,61 @@
+<%-include("../user/layouts/header.ejs")%>
+<%-include("../user/layouts/personal-header.ejs")%>
+            
+         <section class="col-lg-8">
+            <!-- Address  adding page form-->
+            <form  method="post" action="/editaddress?id=<%=addressDatas._id %>" >
+                <div class=" rounded-3 p-4 mb-5">
+                </div>
+                
+                <p>All Kerala delivery only/-</p>
+                        <div class="col-sm-6">  
+                            <label class="form-label" for="account-fn">Name</label>
+                            <input class="form-control" type="text" id="account-fn" value="<%=addressDatas.name %>" name="deliveryname" required>
+                        </div>
+                        <div class="col-sm-6">
+                            <label class="form-label" for="account-phone">Phone Number</label>
+                            <input class="form-control" type="number" id="account-phone" value="<%=addressDatas.phone %>" name="phone"  required>
+                        </div>
+                        <div class="col-sm-6">
+                            <label class="form-label" for="account-fn">House name/Building name</label>
+                            <input class="form-control" type="text" id="account-fn" value="<%=addressDatas.houseName %>" name="houseName"  required>
+                        </div>
+                        <div class="col-sm-6">
+                            <label class="form-label" for="account-phone">City</label>
+                            <input class="form-control" type="text" id="account-phone" value="<%=addressDatas.city %>" name="city" required>
+                        </div>
+                        <div class="col-sm-6">
+                            <label class="form-label" for="account-phone">Pin no:</label>
+                            <input class="form-control" type="number" id="account-phone" value="<%=addressDatas.pin %>" name="pin"  required>
+                        </div>
+                        <div class="col-sm-6">
+                            <label class="form-label" for="account-phone">Distrit</label>
+                            <select class="form-select me-2" type="text" name="distrit"  id="district" required>
+                          <option value="<%=addressDatas.distrit %>" selected><%=addressDatas.distrit %></option>
+                          <option value="Alappuzha">Alappuzha</option>
+                          <option value="Ernakulam">Ernakulam</option>
+                          <option value="Idukki">Idukki</option>
+                          <option value="Kannur">Kannur</option>
+                          <option value="Kasaragod">Kasaragod</option>
+                          <option value="Kollam">Kollam</option>
+                          <option value="Kottayam">Kottayam</option>
+                          <option value="Kozhikode">Kozhikode</option>
+                          <option value="Malappuram">Malappuram</option>
+                          <option value="Palakkad">Palakkad</option>
+                          <option value="Pathanamthitta">Pathanamthitta</option>
+                          <option value="Thiruvananthapuram">Thiruvananthapuram</option>
+                          <option value="Thrissur">Thrissur</option>
+                          <option value="Wayanad">Wayanad</option>
+                        </select>
+                        </div>
+                        <div style="display: flex;justify-content:center;margin-top: 15px;">
+                        <button type="reset" class="bg-danger rounded border-0 " style="color: aliceblue;">Reset</button>&nbsp;
+                        <button type="submit" class="bg-success rounded border-0 " style="color: aliceblue;">submit</button>
+                        </div>
+                </div>
+            </form>
+            </section>
+        </div>
+    </div>
+</div>
+<%-include("../user/layouts/footer.ejs")%>

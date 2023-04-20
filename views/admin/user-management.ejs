@@ -1,0 +1,66 @@
+<%-include("../admin/layouts/header.ejs")%>
+  <section class="col-lg-8 pt-lg-4 pb-4 mb-3">
+    <div class="pt-2 px-4 ps-lg-0 pe-xl-5">
+      <h2 class="h3 pt-2 pb-4 mb-0 text-center text-sm-start border-bottom">User management</h2>
+
+      <!-- user detailes-->
+      <div class="d-block d-sm-flex align-items-center py-4 border-bottom">
+        <div class="text-center text-sm-start">
+          <% userDatas.forEach(userDatas=> {%>
+            <div class="container-fluid pb-3">
+              <p class=" product-title mb-2">User: <%=userDatas.name%>
+              </p>
+              <p class=" product-title mb-2">Mobile no: <%=userDatas.mobile%>
+              </p>
+              <p class=" product-title mb-2">Email: <%=userDatas.email%>
+              </p>
+              <div>
+                <% if(userDatas.access===true) {%>
+                  <form action="/admin/block/<%=userDatas._id %>" onsubmit="block(event)" id="form" method="post">
+                    <b>Status : </b><small style="color:rgb(0, 255, 0)">Active now</small><br>
+                    <button class="btn btn-primary btn-sm mx-auto mx-sm-0 my-2" type="submit"
+                      id="blockBtn">Block</button>
+
+                  </form>
+                  <%}else{%>
+                    <form action="/admin/unblock/<%=userDatas._id %>" method="post">
+                      <b>Status : </b><small style="color: red;"> Blocked</small><br>
+                      <button class="btn btn-success btn-sm mx-auto mx-sm-0 my-2" type="submit"
+                        id="unblockbtn">unblock</button>
+                    </form>
+                    <% } %>
+              </div>
+            </div>
+            <% })%>
+        </div>
+      </div>
+    </div>
+
+    <script>
+
+      function block(e) {
+        e.preventDefault()
+        swal({
+          title: "Are you sure you want to block this user?",
+          icon: "warning",
+          buttons: true,
+          dangerMode: true,
+        })
+          .then((willDelete) => {
+            if (willDelete) {
+            swal("Poof! Your user has been blocked!",
+               {
+                icon: "success",
+              });
+              document.getElementById('form').submit()
+              return true
+            } else {
+              swal("Your imaginary file is safe!");
+              return false
+            }
+          });
+      }
+
+    </script>
+
+  </section>

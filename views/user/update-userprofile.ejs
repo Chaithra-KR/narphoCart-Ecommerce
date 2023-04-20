@@ -1,0 +1,39 @@
+<%-include("../user/layouts/header.ejs")%>
+<%-include("../user/layouts/personal-header.ejs")%>
+
+                <!-- Content  -->
+                <section class="col-lg-8">
+                    <!-- Profile form-->
+                    <form  method="post" action="/UpdateUserprofile">
+                        <div class="bg-secondary rounded-3 p-4 ">
+                            <div class="d-flex align-items-center"><img class="rounded"src="/images/profile.png" width="90">
+                               
+                            </div>
+                        </div>
+                        <div class="row gx-4 gy-3">
+                            <div class="col-sm-6">
+                                <label class="form-label" for="account-fn">First Name</label>
+                                <input class="form-control" type="text" id="account-fn" name="name" value="<%=userDatas.name %>" required>
+                            </div>
+                            <div class="col-sm-6">
+                                <label class="form-label" for="account-email">Email Address</label>
+                                <input class="form-control" type="email" id="account-email" name="email" value="<%=userDatas.email%>" disabled>
+                            </div>
+                            <div class="col-sm-6">
+                                <label class="form-label" for="account-phone">Phone Number</label>
+                                <input class="form-control" type="text" id="account-phone" name="mobile" value="<%=userDatas.mobile %>" required>
+                            </div>
+                            <div class="col-12">
+                                <hr class="mt-2 mb-3">
+                                <div class="d-flex flex-wrap justify-content-end">
+                                    <button class="btn btn-primary mt-3 mt-sm-0" type="button">Submit</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </section>
+            </div>
+        </div>
+        </main>
+
+        <%-include("../user/layouts/footer.ejs")%>

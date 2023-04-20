@@ -1,0 +1,204 @@
+<%-include("../user/layouts/header.ejs")%>
+
+<div>
+          <div class="page-title-overlap bg-dark pt-4">
+            <div class="container d-lg-flex justify-content-between py-2 py-lg-3">
+              <div class="order-lg-2 mb-3 mb-lg-0 pt-lg-2">
+                <nav aria-label="breadcrumb">
+                  <ol class="breadcrumb breadcrumb-light flex-lg-nowrap justify-content-center justify-content-lg-start">
+                    <li class="breadcrumb-item"><a class="text-nowrap" href="/"><i class="ci-home"></i>Home</a></li>
+                    <li class="breadcrumb-item text-nowrap"><a href="/shop">Shop</a>
+                    </li>
+                    <li class="breadcrumb-item text-nowrap active" aria-current="page">Cart</li>
+                  </ol>
+                </nav>
+              </div>
+              <div class="order-lg-1 pe-lg-4 text-center text-lg-start">
+                <h1 class="h3 text-light mb-0">Your cart</h1>
+              </div>
+            </div>
+          </div>
+          <div class="container pb-5 mb-2 mb-md-4">
+            <div class="row">
+              <!-- List of items-->
+              <section class="col-lg-8">
+                <div class="d-flex justify-content-between align-items-center pt-3 pb-4 pb-sm-5 mt-1">
+                  <h2 class="h6 text-light mb-0">Products</h2><a class="btn btn-outline-primary btn-sm ps-2" href="/shop"><i class="ci-arrow-left me-2"></i>Continue shopping</a>
+                </div>
+
+                <% if(accessUserdata.cart.items.length==0){%>
+                  <div class="container text-center m-10 " >
+                    <img src="/images/empty-cart.png" alt="cart empty" width="70">
+                    <p class="cart-empty woocommerce-info">Your cart is currently empty</p>
+                    <div class="return-to-shop">
+                      <p>Add something to make me happy :) <a href="/shop" style="color: navy;">shop page</a></p>
+                    </div>
+                  </div>
+                <%}else{%>
+                  <%
+                    accessUserdata.cart.items.forEach((accessUserdata,i)=>{
+                       %> 
+                      <div class="d-sm-flex justify-content-between align-items-center border-bottom "  id="<%=accessUserdata.id%>item">
+                        
+                          <img src="/images/<%=accessUserdata.products.image[0]%>" width="200px" >
+
+                          <div class="pt-2" style="width: 200px;">
+                            <h3 class="product-title fs-base mb-2 overflow-hidden" style="height: 2.5rem;"><a><%=accessUserdata.products.product%></a></h3>
+                            <p class="fs-lg text-accent pt-2" id="<%=accessUserdata._id%>Price">₹<%=accessUserdata.products.price%><small>/-</small> </p>
+                            <p class="fs-sm text-success"><span class="text-muted me-2">Total price:</span>₹<%=total= accessUserdata.products.price*accessUserdata.quantity%></p>
+                          </div>
+           
+                          <div >
+                            
+                              <label class="form-label" for="quantity1">Quantity</label>
+
+                              <div class="container" id="<%=accessUserdata.id%>Qnty">
+                              <input type="button" onclick="decrementValue('<%=accessUserdata._id%>','<%=accessUserdata.products._id%>')" value="-" />
+                              <input type="text" name="quantity" value="<%=accessUserdata.quantity%>" maxlength="2"  size="1" id="<%=accessUserdata.products._id%>" />
+                              <input type="button" onclick="incrementValue('<%=accessUserdata._id%>','<%=accessUserdata.products._id%>','<%=accessUserdata.products.stock%>')" value="+" />
+                              </div>
+
+                          </div>
+
+                        
+                          <button class="btn btn-link px-0 text-danger" onclick="deleteItem('<%=accessUserdata._id%>')" ><i class="ci-close-circle me-2"></i><span class="fs-sm">Remove</span></button>
+                     
+                      </div>
+                      
+                <%})}%>
+                
+                </section>
+            
+                <% if(accessUserdata.cart.items.length>0){%>
+                  <aside class="col-lg-4 pt-4 pt-lg-0 ps-xl-4">
+                    <div class="bg-white rounded-3 shadow-lg p-4">
+                      <div class="py-2 px-xl-2">
+                        <div class="text-center mb-4 ">
+                          <h2 class="h6 mb-3 pb-1">Subtotal</h2>
+                          <h3 class="fw-normal" id="subtotal">Rs.<%=accessUserdata.cart.totalprice%><small>/-</small></h3>
+                        </div>
+                        
+                        </div><a class="btn btn-primary btn-shadow d-block w-100 mt-4" href="/checkOut?id=<%=accessUserdata._id%>"><i class="ci-card fs-lg me-2"></i>Proceed to Checkout</a>
+                      </div>
+                    </div>
+                  </aside>    
+                  <%}%>
+                </div>    
+            </div>
+          </div>
+</div>
+
+
+<script>
+  function quantityChange(userid,proId,count){
+
+      $.ajax({
+          url : '/qtychange',
+          data:{
+          user:userid,  
+          proId:proId,
+          count:count
+          },
+          
+          method : 'post',
+          success : (response) => {
+            var totalpriceEl = document.getElementById('subtotal');
+              if (totalpriceEl !== null) {
+                totalpriceEl.textContent = 'Rs.' + response.total + '/-';
+              } else {
+                console.error('Element with id "totalprice" not found.');
+              }
+              const quantity = response.quantity
+              console.log(quantity,"this is qty")
+              document.getElementById(proId).value = parseInt(quantity)
+          }
+      }).done((data)=>{
+        console.log(data,"data at ajax in quantity");
+        if(data.success){
+          // location.reload()
+
+        }
+      })
+      document.getElementById(proId).textContent = parseInt(document.getElementById(proId).textContent)+count;
+        }
+</script>
+
+
+<script>
+
+  function deleteItem(id) {
+    console.log(id);
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axios.post(`/Itemdelete/${id}`).then((result) => {
+          if (result.data) {
+            Swal.fire(
+              "Deleted!",
+              "Your file has been deleted.",
+              "success"
+            ).then(() => {
+              location.reload()
+
+            });
+          } else {
+            alert("wrong!");
+          }
+        });
+      }
+    });
+  }
+
+  function incrementValue(userId,proId,valuei)
+{
+  const userid = userId
+  const proid = proId
+  const count = 1
+  const values =parseInt(valuei) ;
+
+    var value = parseInt(document.getElementById(proId).value);
+    value = isNaN(value) ? 0 : value;
+    if(value < values){
+    if(value){
+        value++;
+            document.getElementById(proId).value = value;
+      }
+    quantityChange(userid,proid,count)
+  }
+}
+
+
+
+
+
+function decrementValue(userId,proId)
+{
+  const userid = userId
+  const proid = proId
+
+    var value = parseInt(document.getElementById(proId).value);
+    console.log(value,"value")
+    value = isNaN(value) ? 0 : value;
+    if(value > 1){
+      var count = -1
+      quantityChange(userid,proid,count)
+        value--;
+            document.getElementById(proId).value = value;
+    }
+    
+
+}
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+
+<%-include("../user/layouts/footer.ejs")%>

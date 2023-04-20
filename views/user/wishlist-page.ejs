@@ -1,0 +1,145 @@
+<%-include("../user/layouts/header.ejs")%>
+<%-include("../user/layouts/personal-header.ejs")%>
+
+<section class="col-lg-8">
+  <div class="bg-light rounded-3 p-4 " >
+    <center><h5 style="color: rgb(120, 20, 11);">Wishlist</h5></center><br>
+    <div class="overflow-auto" data-simplebar >
+  
+      <% if(wishData.wishlist.length==0){ %>
+      <div class="container text-center pt-10" style="height: 60vh;">
+        <img src="/images/empty-wishlist.png" alt="cart empty" width="70">
+        <p class="cart-empty woocommerce-info">Your wishlist is currently empty</p><div class="return-to-shop">
+          <p>Add something to make me happy :) <a href="/shop" style="color: navy;">shop page</a></p>
+        </div>
+      </div>
+    <% }else{%>
+    <div class="row mx-n2">
+    <%wishData.wishlist.forEach((Data,i)=>{ %>
+
+        <div class="col-md-4 col-sm-8 px-2 mb-4" >
+          <div class="card product-card" style=" width: 15rem;height: 20rem;">
+            <button class="btn btn-link pb-2 text-danger" onclick="deleteItem('<%=wishData.wishlist[i].product._id%>')" ><i class="ci-close-circle me-2"></i><span class="fs-sm">Remove</span></button>
+            <a class="card-img-top d-block overflow-hidden pt-2" style="height: 15rem;"><img src="/images/<%=wishData.wishlist[i].product.image[0]%>" width="200px" height="80px" ></a>
+            <div class="card-body py-2"><a class="product-meta d-block fs-xs pb-1" href=""><%=wishData.wishlist[i].product.product%></a>
+              <h3 class="product-title fs-sm"><a href=""><%=wishData.wishlist[i].product.categoryname %></a></h3>
+              <div class="d-flex justify-content-between">
+                <div class="product-price"><small>Rs.</small><span class="text-accent"><%=wishData.wishlist[i].product.price%><small>/-</small></span></div>
+                
+              </div>
+            </div>
+            <div class="card-body card-body-hidden">
+              <a class="btn btn-primary btn-sm d-block w-100 mb-2" onclick="addCart('<%=wishData._id %>')"><i class="ci-cart fs-sm me-1"></i>Add to Cart</a>
+            </div>
+
+          
+
+          </div>
+          <hr class="d-sm-none">
+        </div>
+    <%})%>
+    <% } %>
+    </div>
+  </div>
+</section>
+</div>
+</div>
+
+
+<script>
+   function deleteItem(id) {
+    console.log(id);
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, remove it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axios.post(`/dropWish/${id}`).then((result) => {
+          if (result.data) {
+            Swal.fire(
+              "Deleted!",
+              "Your product has been removed.",
+              "success"
+            ).then(() => {
+              location.reload()
+            });
+          } else {
+            alert("wrong!");
+          }
+        });
+      }
+    });
+  }
+
+//wishlist
+  function addWish(proId, button){
+    
+    $.ajax({
+
+        url : '/addwish/'+proId,
+        method : 'post',
+        success : (response) => {
+
+            if(response.added){
+              $(button).find('.ci-heart').removeClass('ci-heart').addClass('ci-heart-filled text-danger');
+            }
+            if(response.exists){
+              $(button).find('.ci-heart-filled').removeClass('ci-heart-filled text-danger').addClass('ci-heart');
+            }
+
+        }
+
+  })
+
+    }
+
+//cart
+
+function addCart(id){
+ axios.get(`/addcart?id=${id}`).then((response)=>{
+   if(response.data.status){
+     const Toast = Swal.mixin({
+   toast: true,
+   position: 'top-end',
+   showConfirmButton: false,
+   timer: 3000,
+   timerProgressBar: true,
+   didOpen: (toast) => {
+     toast.addEventListener('mouseenter', Swal.stopTimer)
+     toast.addEventListener('mouseleave', Swal.resumeTimer)
+   }
+ })
+ 
+ Toast.fire({
+   icon: 'success',
+   title: 'Added to Cart'
+ })
+   }else{
+     const Toast = Swal.mixin({
+   toast: true,
+   position: 'top-end',
+   showConfirmButton: false,
+   timer: 4000,
+   timerProgressBar: true,
+   didOpen: (toast) => {
+     toast.addEventListener('mouseenter', Swal.stopTimer)
+     toast.addEventListener('mouseleave', Swal.resumeTimer)
+   }
+ })
+ 
+ Toast.fire({
+   icon: 'error',
+   title: 'You already added this product'
+ }) 
+   }
+ })                    
+   }
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+      
+<%-include("../user/layouts/footer.ejs")%>

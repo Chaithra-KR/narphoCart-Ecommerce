@@ -1,0 +1,480 @@
+<%- include('../user/layouts/header.ejs') %>
+
+<div class="page-title-overlap bg-dark pt-4">
+  <div class="container d-lg-flex justify-content-between py-2 py-lg-3">
+    <div class="order-lg-1 pe-lg-4 text-center text-lg-start">
+      <h1 class="h3 text-light mb-0">Checkout</h1>
+    </div>
+  </div>
+</div>
+<div class="container pb-5 mb-2 mb-md-4">
+  <div class="row">
+    <aside class="col-lg-4">
+      <!-- Sidebar-->
+      <div class="offcanvas offcanvas-collapse bg-white w-100 rounded-3 shadow-lg py-1" id="shop-sidebar" style="max-width: 22rem;">
+        <div class="offcanvas-header align-items-center shadow-sm">
+          <h2 class="h5 mb-0">Coupon</h2>
+          <button class="btn-close ms-auto" type="button" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body py-grid-gutter px-lg-grid-gutter">
+          <div class="widget widget-categories mb-4 pb-4 border-bottom">
+
+            <div class="accordion" id="order-options">
+            
+              <div class="accordion-item">
+                <h3 class="accordion-header"><a class="accordion-button collapsed " href="#coupon-code" role="button" data-bs-toggle="collapse" aria-expanded="true" aria-controls="coupon-code">Apply coupon code</a></h3>
+                <div class="accordion-collapse collapse " id="coupon-code" data-bs-parent="#order-options">
+                  <h5 class="fw-normal text-center my-4">RS: <span id="result"><%=addressDatas.cart.totalprice %></span>.<small>00</small></h5>
+                  <form id="couponForm" class="accordion-body needs-validation" novalidate>
+                    <div id="success" class="alert alert-success" role="alert" style="display: none">
+                      Coupon applied!
+                    </div>
+                    <div id="notsuccess" class="alert alert-danger" role="alert" style="display: none">
+                      Minimum amount required!
+                    </div>
+                    <div id="expired"  class="alert alert-danger" role="alert" style="display: none;">
+                      Coupon Expired!
+                    </div>
+                    <div id="error"  class="alert alert-danger" role="alert" style="display: none;">
+                      Invalid coupon!
+                    </div>
+                      <input type="number" id="total" name="total" class="d-none" required value="<%=addressDatas.cart.totalprice %>">
+                      <input class="form-control" type="text" id="code"  placeholder="Coupon Code" name="code" required>
+                      <div class="invalid-feedback">Please provide coupon code.</div>
+                </div>
+               
+                    <button id="apply-coupon" class="btn btn-outline-primary d-block w-100" type="submit">Apply Coupon Code</button>
+                  </form>
+              </div>
+            </div>
+              <h3 class="fw-normal my-4 text-center"><span>₹</span><span id="totalPrice"><%=addressDatas.cart.totalprice %></span><span>/-</span></h3>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <section class="col-lg-8">
+
+      <div class="d-flex justify-content-center justify-content-sm-between align-items-end pt-2 pb-4 pb-sm-5">
+        <div class="d-flex">
+          <nav aria-label="breadcrumb">
+            <ol class="breadcrumb breadcrumb-light flex-lg-nowrap justify-content-center justify-content-lg-start">
+              <li class="breadcrumb-item"><a class="text-nowrap" href="/"><i class="ci-home"></i>Home</a></li>
+              <li class="breadcrumb-item text-nowrap"><a href="/shop">Shop</a>
+              </li>
+              <li class="breadcrumb-item text-nowrap active" aria-current="page">Checkout</li>
+            </ol>
+          </nav>
+        </div>
+      </div>
+
+
+
+
+
+
+
+  <div class="container">
+    <div class="row">
+      <section class="col-lg-12 ">
+        
+        <div class="container">
+          
+          <div class=" modal-footer d-flex justify-content-end pt-5">
+             <button class="btn btn-primary btn-shadow" href="#add-address" data-bs-toggle="modal"><i class="ci-add-document fs-lg me-2"></i>Add Address</button>
+          </div>
+          
+                <!-- Add New Address-->
+          
+                      <form class="needs-validation modal fade" action="/insertAddress" method="post" id="add-address" tabindex="-1" novalidate>
+                        <div class="modal-dialog modal-lg">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h5 class="modal-title">Add a New Address</h5>
+                              <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                              <div class="row gx-4 gy-3">
+                                <p>All Kerala delivery only/-</p>
+                                <div class="col-sm-12">
+                                  <label class="form-label" for="name">Name</label>
+                                  <input class="form-control" type="text" name="deliveryname1"  required>
+                                  <div class="invalid-feedback">Please fill your name!</div>
+                                </div>
+                                <div class="col-sm-6">
+                                  <label class="form-label" for="phone">Pone number</label>
+                                  <input class="form-control" type="number" name="phone1" required>
+                                  <div class="invalid-feedback">Please fill your city!</div>
+                                </div>
+                                <div class="col-sm-6">
+                                  <label class="form-label" for="house">House name/Building name</label>
+                                  <input class="form-control" type="text" name="houseName1"  required>
+                                  <div class="invalid-feedback">Please fill your house!</div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <label class="form-label" for="pin">Pin</label>
+                                    <input class="form-control" type="number" name="pin1"required>
+                                    <div class="invalid-feedback">Please add your pin!</div>
+                                </div>
+                                <div class="col-sm-6">
+                                  <label class="form-label" for="city">City</label>
+                                  <input class="form-control" type="text" name="city1"  required>
+                                  <div class="invalid-feedback">Please fill your city!</div>
+                                </div>
+                                <div class="col-sm-6">
+                                  <label class="form-label" for="district">District</label>
+                                  <select class="form-select me-2" type="text" name="distrit1" required>
+                                    <option value="">Select District</option>
+                                    <option value="Alappuzha">Alappuzha</option>
+                                    <option value="Ernakulam">Ernakulam</option>
+                                    <option value="Idukki">Idukki</option>
+                                    <option value="Kannur">Kannur</option>
+                                    <option value="Kasaragod">Kasaragod</option>
+                                    <option value="Kollam">Kollam</option>
+                                    <option value="Kottayam">Kottayam</option>
+                                    <option value="Kozhikode">Kozhikode</option>
+                                    <option value="Malappuram">Malappuram</option>
+                                    <option value="Palakkad">Palakkad</option>
+                                    <option value="Pathanamthitta">Pathanamthitta</option>
+                                    <option value="Thiruvananthapuram">Thiruvananthapuram</option>
+                                    <option value="Thrissur">Thrissur</option>
+                                    <option value="Wayanad">Wayanad</option>
+                                  </select>
+                                  <div class="invalid-feedback">Please select your district!</div>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="modal-footer">
+                              <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Close</button>
+                              <button class="btn btn-primary btn-shadow" type="submit">submit</button>
+                            </div>
+                          </div>
+                        </div>
+                      </form>
+
+          
+                      
+                      <form  method="post" id="submitForm">
+                              <h6 class="mb-3 py-3 border-bottom"><i class="ci-location "></i>Delivery Address</h6>
+                            
+                            
+                            <%addressDatas.address.forEach((addressDatas)=> {%>
+                              <div class=" border-bottom">
+                              <div class="d-flex justify-content-center">
+                                <a class="btn bg-faded-danger btn-icon"  onclick="deleteItem('<%=addressDatas._id%>')"  data-bs-toggle="tooltip" title="Edit"><i class="ci-trash text-danger"></i></a>
+
+                              </div>
+                              <input type="radio" id="<%=addressDatas._id %>" onclick="setAddress('<%=addressDatas._id %>','<%=productDatas._id %>')" name="optionShipp" value="<%=addressDatas._id %>" >         
+                              <scan><%=addressDatas.name %></scan>
+                              <scan>-<%=addressDatas.phone %></scan></p>
+                              <p><%=addressDatas.houseName%>(H),</p>
+                              <p><%=addressDatas.city +',' +addressDatas.district+','+addressDatas.pin%>&nbsp;(pin)</p> 
+                            </div> 
+                              <%}); %>
+                            <!-- select shipping address-->
+                          
+                              <h6 class="mb-3 py-3 border-bottom"><i class="ci-location "></i>Shipping Address</h6>
+                              <div class="row gx-4 gy-3">
+                              
+                                <p>All Kerala delivery only/-</p>
+                                <div class="col-sm-12">
+                                  <label>Name</label>
+                                  <input class="form-control" type="text" name="deliveryname" id="deliveryname" required>
+                                  <div class="invalid-feedback">Please fill your name!</div>
+                                </div>
+                                <div class="col-sm-6">
+                                  <label>Pone number</label>
+                                  <input class="form-control" type="number" name="phone" id="phone" required>
+                                  <div class="invalid-feedback">Please fill your city!</div>
+                                </div>
+                                <div class="col-sm-6">
+                                  <label>House name/Building name</label>
+                                  <input class="form-control" type="text" name="houseName" id="house" required>
+                                  <div class="invalid-feedback">Please fill your house!</div>
+                                </div>
+                                <div class="col-sm-6">
+                                  <label>Pin</label>
+                                  <input class="form-control" type="number" name="pin" id="pin" required>
+                                  <div class="invalid-feedback">Please add your pin!</div>
+                                </div>
+                                <div class="col-sm-6">
+                                  <label>City</label>
+                                  <input class="form-control" type="text" name="city" id="city" required>
+                                  <div class="invalid-feedback">Please fill your city!</div>
+                                </div>
+                                <div class="col-sm-6">
+                                  <label>District</label>
+                                  <select class="form-select me-2" type="text" name="distrit" id="distrit" required>
+                                    <option value="">Select District</option>
+                                    <option value="Alappuzha">Alappuzha</option>
+                                    <option value="Ernakulam">Ernakulam</option>
+                                    <option value="Idukki">Idukki</option>
+                                    <option value="Kannur">Kannur</option>
+                                    <option value="Kasaragod">Kasaragod</option>
+                                    <option value="Kollam">Kollam</option>
+                                    <option value="Kottayam">Kottayam</option>
+                                    <option value="Kozhikode">Kozhikode</option>
+                                    <option value="Malappuram">Malappuram</option>
+                                    <option value="Palakkad">Palakkad</option>
+                                    <option value="Pathanamthitta">Pathanamthitta</option>
+                                    <option value="Thiruvananthapuram">Thiruvananthapuram</option>
+                                    <option value="Thrissur">Thrissur</option>
+                                    <option value="Wayanad">Wayanad</option>
+                                  </select>
+                                </div>
+                                <div class="d-flex justify-content-end ">
+                                </div>
+                      
+
+                            <!-- products in cart-->
+
+                            
+                            
+                          </div>
+                  
+
+                          <!-- payment methods -->
+
+                          <h2 class="h6 pt-1 pb-3 mb-3 border-bottom">Payment Methods</h2>
+                          <div class="d-flex justify-content-between mb-3" style=" width: 14.5rem;">
+                            <!-- cash on delivery -->
+                            <div class="form-check">
+                              <label for="payment"  >
+                                Cash on delivery
+                                <input type="radio" id="payment" name="payment" value="COD" >
+                                <span class="checkmark"></span>
+                              </label>
+                            </div>
+                            <!-- razorpay -->
+                            <div class="form-check">
+                              <label for="paypal">
+                                razorpay
+                                <input type="radio" id="paypal" name="payment" value="razorpay">
+                                <span class="checkmark"></span>
+                              </label>
+                            </div>
+
+                          </div>
+
+                          <button  class="btn btn-success d-block w-100 mt-4"><i class=" fs-lg me-2"></i>Place order</button>
+                      </form>
+              </div>
+           
+      </section>
+
+   </div>
+  </div>
+  </div>
+</div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+
+<script>
+  function deleteItem(id) {
+    console.log(id);
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axios.post(`/Addressdelete/${id}`).then((result) => {
+          if (result.data) {
+            Swal.fire(
+              "Deleted!",
+              "Your file has been deleted.",
+              "success"
+            ).then(() => {
+              location.reload()
+
+            });
+          } else {
+            alert("wrong!");
+          }
+        });
+      }
+    });
+  }
+</script>
+  <script>
+
+    // to set address
+    const setAddress = function(id,proId) {
+                                $.ajax({
+                                    url: '/setAddress',
+                                    method: 'post',
+                                    dataType: 'json',
+                                    data: {
+                                        id: id,
+                                        proId:proId
+                                    }
+                                }).done(data => {                               
+                                  $("#deliveryname").val(data.name);
+                                  $("#phone").val(data.phone);
+                                  $("#house").val(data.houseName);
+                                  $("#pin").val(data.pin);
+                                  $("#city").val(data.city);
+                                  $("#distrit").val(data.distrit);
+                              })
+                              Swal.fire({
+                              position: 'top-end',
+                              icon: 'success',
+                              title: 'Shipping address selected',
+                              showConfirmButton: false,
+                              timer: 1500
+                            })
+
+                            };
+
+
+    //  to apply coupon
+    // let clicked = false;
+    $('#couponForm').submit((e)=>{
+     
+        e.preventDefault()
+     const code = document.getElementById('code').value
+     const total = document.getElementById('total').innerHTML
+     if(code == ""){
+      document.getElementById('error').style.display='inline'
+      setTimeout(()=> document.getElementById('error').style.display='none',2000)
+     }else{
+         $.ajax({
+            url:'/applyCoupon',
+            method:'post',
+            // dataType: "json",
+            encode: true,
+            data:
+        
+                $('#couponForm').serialize()+ `&total=${total}`
+            ,
+
+            success:((response)=>{
+              if(response.errormessage===false){
+                document.getElementById('error').style.display='inline'
+                setTimeout(()=> document.getElementById('error').style.display='none',2000)
+
+
+              }else if (response.status){
+
+                    document.getElementById('success').style.display='inline'
+                    document.getElementById('totalPrice').innerHTML=response.total
+                    setTimeout(()=> document.getElementById('success').style.display='none',2000)
+                    clicked=true
+              }else if  (response.status == false){
+                    document.getElementById('notsuccess').style.display='inline'
+                    setTimeout(()=> document.getElementById('notsuccess').style.display='none',2000)
+              }else {
+                    
+                    document.getElementById('expired').style.display='inline'
+                    setTimeout(()=> document.getElementById('expired').style.display='none',2000);
+                   
+              }
+              
+                
+            })
+
+
+
+
+
+
+          })
+     }
+    })
+
+    // to place order
+    $('#submitForm').submit((el)=>{
+    el.preventDefault()
+    $.ajax({
+        url:"/checkOut",
+        method:'post',
+        data:$('#submitForm').serialize(),
+  
+        success:(response)=>{
+
+          if(response.COD){
+            location.href="/codsuccess";
+          }else{
+            console.log('starting rozopay-----',response.amount);
+            razorPayment(response)
+        
+          }
+
+        }
+    }).then((data)=>{
+ 
+ 
+    })
+  }
+)
+
+function razorPayment(order){
+    var options = {
+        "key": "rzp_test_D20tCRgl2HzlWA", 
+        "amount": order.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+        "currency": "INR",
+        "name": "narphoCart", //your business name
+        "description": "Test Transaction",
+        "image": "https://example.com/your_logo",
+        "order_id": order.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+        "callback_url": "https://eneqd3r9zrjok.x.pipedream.net/",
+        "handler":function (response){
+              verifyPayment(response,order)
+        }
+       ,
+        "prefill": {
+            "name": "Gaurav Kumar", //your customer's name
+            "email": "gaurav.kumar@example.com",
+            "contact": "9000090000"
+        },
+        "notes": {
+            "address": "Razorpay Corporate Office"
+        },
+        "theme": {
+            "color": "#3399cc"
+        }
+    }
+    console.log('coming last stage');
+    
+    var rzp1 = new Razorpay(options);
+    rzp1.open();
+    }
+
+
+
+    function verifyPayment(response,order) {
+      $.ajax({
+        url:'/verify-razorpay',
+        data:{response,order},
+        method:'post',
+        success:(response)=>{
+          console.log(response,'date is comming to the verify paymanet');
+          if (response.success==true) {
+            location.href="/success";
+          }else{
+            alert('payment failed');
+          }
+        }
+      })
+      
+    }
+
+
+
+
+  </script>
+
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+  <%- include('../user/layouts/footer.ejs') %>
+  <div class="handheld-toolbar">
+    <div class="d-table table-layout-fixed w-100">
+      <a class="d-table-cell handheld-toolbar-item" href="#" data-bs-toggle="offcanvas" data-bs-target="#shop-sidebar"><span class="handheld-toolbar-icon"><i class="ci-filter-alt"></i></span><span class="handheld-toolbar-label">Coupon</span></a>
+      <a class="d-table-cell handheld-toolbar-item" href="/wishlist"><span class="handheld-toolbar-icon"><i class="ci-heart"></i></span><span class="handheld-toolbar-label">Wishlist</span></a>
+      <a class="d-table-cell handheld-toolbar-item" href="javascript:void(0)" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" onclick="window.scrollTo(0, 0)"><span class="handheld-toolbar-icon"><i class="ci-menu"></i></span><span class="handheld-toolbar-label">Menu</span></a>
+      <a class="d-table-cell handheld-toolbar-item" href="/cart"><span class="handheld-toolbar-icon"><i class="ci-cart"></i></span><span class="handheld-toolbar-label">Cart</span></a></div>
+
+  </div>

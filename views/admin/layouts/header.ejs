@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>narphoCart</title>
+  <!-- SEO Meta Tags-->
+  <meta name="description" content="Cartzilla - Bootstrap E-commerce Template">
+  <meta name="keywords"
+    content="bootstrap, shop, e-commerce, market, modern, responsive,  business, mobile, bootstrap, html5, css3, js, gallery, slider, touch, creative, clean">
+  <meta name="author" content="Createx Studio">
+  <!-- Viewport-->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Favicon and Touch Icons-->
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+  <link rel="manifest" href="site.webmanifest">
+  <link rel="mask-icon" color="#fe6a6a" href="safari-pinned-tab.svg">
+  <meta name="msapplication-TileColor" content="#ffffff">
+  <meta name="theme-color" content="#ffffff">
+  <!-- Vendor Styles including: Font Icons, Plugins, etc.-->
+  <link rel="stylesheet" media="screen" href="/vendor/simplebar/dist/simplebar.min.css" />
+  <link rel="stylesheet" media="screen" href="/vendor/tiny-slider/dist/tiny-slider.css" />
+  <!-- Main Theme Styles + Bootstrap-->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+    crossorigin="anonymous"></script>
+
+    <link rel=”stylesheet” href=”https://cdn.datatables.net/1.10.22/css/jquery.dataTables.min.css” />
+
+    <!-- Table Scripts -->
+    <script src="https://code.jquery.com/jquery-3.6.3.js" integrity="sha256-nQLuAZGRRcILA+6dMBOvcRh5Pe310sBpanc6+QBmyVM=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.13.2/css/jquery.dataTables.min.css">
+    <script type="text/javascript" charset="utf8" src="//cdn.datatables.net/1.13.2/js/jquery.dataTables.min.js"></script>
+
+
+  <link rel="stylesheet" media="screen" href="/css/theme.min.css">
+  <!-- Google Tag Manager-->
+  <script>
+    (function (w, d, s, l, i) {
+      w[l] = w[l] || []; w[l].push({
+        'gtm.start':
+          new Date().getTime(), event: 'gtm.js'
+      }); var f = d.getElementsByTagName(s)[0],
+        j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+          '../www.googletagmanager.com/gtm5445.html?id=' + i + dl; f.parentNode.insertBefore(j, f);
+    })(window, document, 'script', 'dataLayer', 'GTM-WKV3GT5');
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+</head>
+
+
+<!-- Dashboard header-->
+<div class="page-title-overlap bg-dark pt-4">
+  <div
+    class="container d-flex flex-wrap flex-sm-nowrap justify-content-center justify-content-sm-between align-items-center pt-2">
+    <div class="d-flex align-items-center pb-3">
+      <div class="img-thumbnail rounded-circle position-relative flex-shrink-0" style="width: 6.375rem;"><img
+          class="rounded-circle" src="/img/marketplace/account/avatar.png" alt="Createx Studio"></div>
+      <div class="ps-3">
+        <h3 class="text-light fs-lg mb-0">Narpho</h3>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- index pages in dashboard-->
+<div class="container-fluid mb-5 pb-3">
+  <div class="bg-light shadow-lg rounded-3 overflow-hidden">
+    <div class="row">
+      <aside class="col-lg-3 pe-xl-5">
+        <div class="d-block d-lg-none p-4"><a class="btn btn-outline-accent d-block" href="#account-menu" data-bs-toggle="collapse"><i class="ci-menu me-2"></i>Account menu</a></div>
+        
+        <!-- Actual menu-->
+        <div class="h-100 border-end mb-2">
+          <div class="d-lg-block collapse" id="account-menu">
+            <div class="bg-secondary p-4">
+              <h3 class="fs-sm mb-0 text-muted">Account</h3>
+            </div>
+            <ul class="list-unstyled mb-0">
+              <li class="border-bottom mb-0"><a  class="nav-link-style d-flex align-items-center px-4 py-3 "
+                  href=/admin/dashboard><i class="ci-security-check opacity-60 me-2"></i>Dashboard</a></li>
+              <li class="border-bottom mb-0"><a class="nav-link-style d-flex align-items-center px-4 py-3 "
+                  href=/admin/adminlogout><i class="ci-locked opacity-60 me-2"></i>Sign out</a></li>
+            </ul>
+
+            <div class="bg-secondary p-4">
+              <h3 class="fs-sm mb-0 text-muted">Settings</h3>
+            </div>
+            <ul class="list-unstyled mb-0">
+              <li class="mb-0"><a class="nav-link-style d-flex align-items-center px-4 py-3"
+                href="/admin/category"><i class="ci-filter-alt  opacity-60 me-2"></i>Category management</a></li>
+              <li class="border-bottom mb-0"><a class="nav-link-style d-flex align-items-center px-4 py-3"
+                  href=/admin/productmanagement><i class="ci-tag opacity-60 me-2"></i>Product management</span></a></li>
+              <li class="border-bottom mb-0"><a class="nav-link-style d-flex align-items-center px-4 py-3" href=/admin/coupon><i class="ci-bell opacity-60 me-2"></i>Coupon management</a></li>
+              <li class="border-bottom mb-0"><a class="nav-link-style d-flex align-items-center px-4 py-3 "
+                href="/admin/usermanagement"><i class="ci-user opacity-60 me-2"></i>User management</a></li>
+
+            </ul>
+
+            <div class="bg-secondary p-4">  
+              <h3 class="fs-sm mb-0 text-muted">Seller dashboard</h3>
+            </div>
+            <ul class="list-unstyled mb-0">
+              <li class="border-bottom mb-0"><a class="nav-link-style d-flex align-items-center px-4 py-3"
+                  href="/admin/sales"><i class="ci-coin opacity-60 me-2"></i>Sales report</a></li>
+              <li class="mb-0"><a class="nav-link-style d-flex align-items-center px-4 py-3" href=/admin/order><i class="ci-bag opacity-60 me-2"></i>Order management</a></li>
+            </ul>
+
+            <hr>
+          </div>
+        </div>
+      </aside>

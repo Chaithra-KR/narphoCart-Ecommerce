@@ -1,0 +1,116 @@
+<%-include("../admin/layouts/header.ejs") %>
+
+
+<section class="col-lg-9 pt-lg-4 pb-4 mb-3">
+    <div class="pt-2 px-4 ps-lg-0 pe-xl-5">
+      <div class="container-fluid" style="display: flex; justify-content: space-between;">
+      <p class="h3 pt-2 pb-4 mb-1 " style="font-family:Arial, Helvetica, sans-serif">Product management</p>
+      </div>
+      <div class="table-responsive">
+        <div class="container-fluid d-flex justify-content-end"><a  href="/admin/addproduct" class="btn btn-success mb-3 btn-sm d-flex align-items-center justify-content-center" style="width: 70px;height: 30px; font-size: 10px;">Add Product</a></div>
+      <table id="product" id="example" class=" table display" style="width:100%">
+     
+        <% if(typeof message !=="undefined"){ %>
+          <p style="color: green;"><%=message %></p>
+        <% }else if(typeof errormessage !=="undefined"){ %>
+            <p style="color: red;"><%=errormessage %></p>
+            <% } %>
+        <thead>
+          <tr>
+            <th scope="col" style="font-size:small;">SI.no:</th>
+            <th scope="col" style="font-size:small;">Product</th>
+            <th scope="col" style="font-size:small;">Category</th>
+            <th scope="col" style="font-size:small;">Image</th>
+            <th scope="col" style="font-size:small;">Description</th>
+            <th scope="col" style="font-size:small;">Stock</th>
+            <th scope="col" style="font-size:small;">Status</th>
+            <th scope="col" style="font-size:small;">Price</th>
+            <th scope="col" style="font-size:small;">list status</th>
+            <th scope="col" style="font-size:small;">Settings</th>
+          </tr>
+        </thead>
+        
+<%productDatas.forEach(function(productDatas,i){%> 
+        <tbody class="x">
+          <tr>
+            <td><%=i+1%></td>
+            <td><small><%=productDatas.product %></small></td>
+            <td><small><%=productDatas.category.categoryname%></small></td>
+            <td><img src="/images/<%=productDatas.image[0]%>"></td>
+            <td  style="height: 2rem;" data-simplebar><small><%=productDatas.description %></small></td>
+            <td><small><%=productDatas.stock %></small></td>
+            <td><small><%=productDatas.status%></small></td>
+            <td><small><%=productDatas.price %></small></td>
+            <td>
+            <% if(productDatas.liststatus===true) {%>
+              <form action="/admin/list/<%=productDatas._id %>"id="form" method="post">
+                <button class="btn bg-faded-success btn-icon"  type="submit" data-bs-toggle="tooltip" id="blockBtn" title="Tap to unlist"><i class="ci-check-circle text-success "></i></button>
+
+              </form>
+            <%}else{%>
+                <form action="/admin/unlist/<%=productDatas._id %>" method="post">
+                    <button class="btn bg-faded-danger btn-icon" type="submit"  id="unblockbtn" data-bs-toggle="tooltip" title="Tap to list"><i class="ci-close-circle text-danger "></i></button>
+                </form>
+            <% } %></td>
+            <td >
+              <div class=" d-flex justify-content-between ">
+              <a class="btn bg-faded-accent btn-icon" href="/admin/editproduct?id=<%=productDatas._id%>" data-bs-toggle="tooltip" title="Edit"><i class="ci-edit text-accent"></i></a>&nbsp;
+              <a class="btn bg-faded-danger btn-icon"  onclick="deleteproduct('<%= productDatas._id %>')" data-bs-toggle="tooltip" title="Delete" ><i class="ci-trash text-danger"></i></a>
+              </div>
+            </td>
+          </tr>
+        <%}); %>         
+        </tbody>
+      
+      </table>
+    </div>
+    </div>
+
+    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
+    <script>
+    // table script
+    $(document).ready(function () {
+    $('#product').DataTable({
+        pagingType: 'full_numbers',
+    });
+    });
+    </script>
+    
+</section>
+
+<script>
+  setTimeout(()=>{
+      document.getElementById("notify").remove()
+  },3000)
+
+  function deleteproduct(id) {
+    console.log(id);
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axios.post(`/admin/dropProduct/${id}`).then((result) => {
+          if (result.data) {
+            Swal.fire(
+              "Deleted!",
+              "Your file has been deleted.",
+              "success"
+            ).then(() => {
+              location.reload();
+            });
+          } else {
+            alert("wrong!");
+          }
+        });
+      }
+    });
+  }
+
+</script>

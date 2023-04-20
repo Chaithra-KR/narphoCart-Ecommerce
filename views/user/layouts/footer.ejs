@@ -1,0 +1,59 @@
+<footer class="footer bg-dark pt-5">
+  <div class="container">
+    <div class="row pb-2">
+      <div class="col-md-4 col-sm-6">
+        <div class="widget widget-links widget-light pb-2 mb-4">
+          <h3 class="widget-title text-light">Shop departments</h3>
+          <ul class="widget-list">
+            <li class="widget-list-item"><a class="widget-list-link" href="#">Bags &amp; Wallets</a></li>
+            <li class="widget-list-item"><a class="widget-list-link" href="#">Accessories</a></li>
+            <li class="widget-list-item"><a class="widget-list-link" href="#">Sunglasses &amp; Eyewear</a></li>
+            <li class="widget-list-item"><a class="widget-list-link" href="#">Watches</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-md-4 col-sm-6">
+        <div class="widget widget-links widget-light pb-2 mb-4">
+          <h3 class="widget-title text-light">Account &amp; shipping info</h3>
+          <ul class="widget-list">
+            <li class="widget-list-item"><a class="widget-list-link" href="#">Your account</a></li>
+            <li class="widget-list-item"><a class="widget-list-link" href="#">Order tracking</a></li>
+            <li class="widget-list-item"><a class="widget-list-link" href="#">Delivery info</a></li>
+          </ul>
+        </div>
+        
+      </div>
+      <div class="col-md-4 col-sm-6">
+        <div class="widget widget-links widget-light pb-2 mb-4">
+          <h3 class="widget-title text-light">About us</h3>
+          <ul class="widget-list">
+            <li class="widget-list-item"><a class="widget-list-link" href="#">About company</a></li>
+            <li class="widget-list-item"><a class="widget-list-link" href="#">Our team</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+<!-- Toolbar for handheld devices (Default)-->
+<div class="handheld-toolbar">
+  <% if (userSession) {%>
+  <div class="d-table table-layout-fixed w-100"><a class="d-table-cell handheld-toolbar-item" href="/wishlist"><span class="handheld-toolbar-icon"><i class="ci-heart"></i></span><span class="handheld-toolbar-label">Wishlist</span></a><a class="d-table-cell handheld-toolbar-item" href="javascript:void(0)" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" onclick="window.scrollTo(0, 0)"><span class="handheld-toolbar-icon"><i class="ci-menu"></i></span><span class="handheld-toolbar-label">Menu</span></a><a class="d-table-cell handheld-toolbar-item" href="/cart"><span class="handheld-toolbar-icon"><i class="ci-cart"></i></span><span class="handheld-toolbar-label">Cart</span></a></div>
+    
+  <%} else{%>
+  <div class="d-table table-layout-fixed w-100"><a class="d-table-cell handheld-toolbar-item" href="/login"><span class="handheld-toolbar-icon"><i class="ci-heart"></i></span><span class="handheld-toolbar-label">Wishlist</span></a><a class="d-table-cell handheld-toolbar-item" href="javascript:void(0)" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" onclick="window.scrollTo(0, 0)"><span class="handheld-toolbar-icon"><i class="ci-menu"></i></span><span class="handheld-toolbar-label">Menu</span></a><a class="d-table-cell handheld-toolbar-item" href="/login"><span class="handheld-toolbar-icon"><i class="ci-cart"></i></span><span class="handheld-toolbar-label">Cart</span></a></div>
+  <% } %>
+</div>
+<!-- Back To Top Button--><a class="btn-scroll-top" href="#top" data-scroll><span class="btn-scroll-top-tooltip text-muted fs-sm me-2">Top</span><i class="btn-scroll-top-icon ci-arrow-up">   </i></a>
+<!-- Vendor scrits: js libraries and plugins-->
+<script src="/vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="/vendor/simplebar/dist/simplebar.min.js"></script>
+<script src="/vendor/tiny-slider/dist/min/tiny-slider.js"></script>
+<script src="/vendor/smooth-scroll/dist/smooth-scroll.polyfills.min.js"></script>
+<script src="/vendor/drift-zoom/dist/Drift.min.js"></script>
+<script src="/vendor/lightgallery.js/dist/js/lightgallery.min.html"></script>
+<script src="/vendor/lg-video.js/dist/lg-video.min.html"></script>
+<!-- Main theme script-->
+<script src="/javascripts/theme.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,37 @@
+<%-include("../user/layouts/header.ejs")%>
+<%-include("../user/layouts/personal-header.ejs")%>
+<section class="col-lg-8">
+    <!-- address page --> 
+    <div class="bg-light rounded-3 p-4">
+        <center><h5 style="color: rgb(120, 20, 11);">Coupons</h5></center><br>
+    <table class="table table-hover mb-10">
+        
+        <thead>
+        <tr>
+
+            <th scope="col" style="font-size:small;">SI.No</th>
+            <th scope="col" style="font-size:small;">Coupon code</th>
+            <th scope="col" style="font-size:small;">Discount</th>
+            <th scope="col" style="font-size:small;">Minimum Amount</th>
+            <th scope="col" style="font-size:small;">Expiry date</th>
+
+        </tr>
+        </thead>
+        <tbody>
+        <%Coupondata.forEach((val,i)=>{%>
+        <tr>
+            <td><small><%=i+1 %></small></td>
+            <td><small><%=val.couponCode %></small></td>
+            <td><small><%=val.amount %></small></td>
+            <td><small><%=val.minAmount %></small></td>
+            <td><small><%=val.exp.toLocaleString() %></small></td>
+
+        </tr>   
+        <% }) %>
+        </tbody>
+    </table>
+</div>
+    </section>
+</div>
+</div>  
+<%-include("../user/layouts/footer.ejs")%>

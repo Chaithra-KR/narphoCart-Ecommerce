@@ -1,0 +1,122 @@
+<%- include('../user/layouts/header.ejs') %>
+<%- include('../user/layouts/checkout-header.ejs') %>
+
+      <!-- Add New Address-->
+
+            <form class="needs-validation modal fade" action="/insertAddress" method="post" id="add-address" tabindex="-1" novalidate>
+              <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title">Add a New Address</h5>
+                    <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                    <div class="row gx-4 gy-3">
+                      <p>All Kerala delivery only/-</p>
+                      <div class="col-sm-12">
+                        <label class="form-label" for="name">Name</label>
+                        <input class="form-control" type="text" name="deliveryname" id="deliveryname" required>
+                        <div class="invalid-feedback">Please fill your name!</div>
+                      </div>
+                      <div class="col-sm-6">
+                        <label class="form-label" for="phone">Pone number</label>
+                        <input class="form-control" type="number" name="phone" id="phone" required>
+                        <div class="invalid-feedback">Please fill your city!</div>
+                      </div>
+                      <div class="col-sm-6">
+                        <label class="form-label" for="house">House name/Building name</label>
+                        <input class="form-control" type="text" name="houseName" id="house" required>
+                        <div class="invalid-feedback">Please fill your house!</div>
+                      </div>
+                      <div class="col-sm-6">
+                          <label class="form-label" for="pin">Pin</label>
+                          <input class="form-control" type="number" name="pin" id="pin" required>
+                          <div class="invalid-feedback">Please add your pin!</div>
+                      </div>
+                      <div class="col-sm-6">
+                        <label class="form-label" for="city">City</label>
+                        <input class="form-control" type="text" name="city" id="city" required>
+                        <div class="invalid-feedback">Please fill your city!</div>
+                      </div>
+                      <div class="col-sm-6">
+                        <label class="form-label" for="district">District</label>
+                        <select class="form-select me-2" type="text" name="distrit" id="district" required>
+                          <option value="">Select District</option>
+                          <option value="Alappuzha">Alappuzha</option>
+                          <option value="Ernakulam">Ernakulam</option>
+                          <option value="Idukki">Idukki</option>
+                          <option value="Kannur">Kannur</option>
+                          <option value="Kasaragod">Kasaragod</option>
+                          <option value="Kollam">Kollam</option>
+                          <option value="Kottayam">Kottayam</option>
+                          <option value="Kozhikode">Kozhikode</option>
+                          <option value="Malappuram">Malappuram</option>
+                          <option value="Palakkad">Palakkad</option>
+                          <option value="Pathanamthitta">Pathanamthitta</option>
+                          <option value="Thiruvananthapuram">Thiruvananthapuram</option>
+                          <option value="Thrissur">Thrissur</option>
+                          <option value="Wayanad">Wayanad</option>
+                        </select>
+                        
+                        <div class="invalid-feedback">Please select your district!</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Close</button>
+                    <button class="btn btn-primary btn-shadow" type="submit">submit</button>
+                  </div>
+                </div>
+              </div>
+            </form>
+
+
+
+
+            <!--Review page-->
+            
+            <div>
+                <div class="d-sm-flex justify-content-between align-items-center border-bottom">
+                    <div class="d-block d-sm-flex align-items-center text-center text-sm-start">
+                      <div class="fs-sm"><img src="images/<%=productDatas.image[0]%>" ></div>
+                      <div class="pt-2">
+                        <h3 class="product-title fs-base mb-2"><a href=""><%=productDatas.product %> </a></h3>
+                        <div class="fs-sm"><span class="text-muted me-2"><%=productDatas.description %></div>
+                        <p class="form-label" for="quantity1">Quantity:<%=productDatas.quantity%></p> 
+                        <div class="fs-lg text-accent pt-2">Total price : ₹<%=productDatas.price %><small>/-</small> </div> 
+                      </div>
+                    </div>
+                </div>
+            </div>
+           
+            <h6 class="mb-3 py-3 border-bottom"><i class="ci-location "></i>Delivery Address</h6>
+            <div>
+                <div class="d-flex justify-content-end">
+
+                  <div class="modal-footer">
+                    <button class="btn btn-primary btn-shadow" href="#add-address" data-bs-toggle="modal"><i class="ci-add-document fs-lg me-2"></i>Add Address</button>
+                  </div>
+
+                </div>
+                
+                <%addressDatas.address.forEach(addressDatas => {%>
+                  <input type="radio" >
+                
+                <scan><%=addressDatas.name %></scan>
+                <scan>-<%=addressDatas.phone %></scan></p>
+                <p><%=addressDatas.houseName%>(H),</p>
+                <p><%=addressDatas.city +',' +addressDatas.district+','+addressDatas.pin%>&nbsp;(pin)</p>
+              <%}); %>
+               </div>
+               <div class="w-50 d-flex ms-10">
+                <a class="btn btn-success d-block w-100" href="/checkout-payment"><span class="d-none d-sm-inline">Proceed to Payment</span><i class="ci-arrow-right mt-sm-0 ms-1"></i></a>
+                </div>
+            
+        </section>
+            
+<%- include('../user/layouts/checkout-footer.ejs') %>
+<%- include('../user/layouts/footer.ejs') %>
+            
+            
+
+

@@ -1,0 +1,75 @@
+<%-include("../user/layouts/header.ejs")%>
+<%-include("../user/layouts/personal-header.ejs")%>
+
+                <!-- Content  -->
+                <section class="col-lg-8">
+                    <!-- Profile form-->
+                        <div class="bg-light rounded-3 p-4 ">
+                          <center><h5 style="color: rgb(120, 20, 11);">Wallet</h5></center><br>
+                        <div class="row pb-3">
+                            <div class="d-flex justify-content-end ">
+                            <a  data-toggle="modal" class="btn btn-warning btn-sm"  style="width: 130px;height: 30px; font-size: 12px;" data-target="#exampleModal">WALLET BALANCE</a>
+                            </div>
+                            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                  <% if (userDatas.wallet==0) {%>
+                                    <div class="modal-content">
+                                      <div class="modal-header">
+                                        <h5 class="modal-title " id="exampleModalLabel">Your Wallet</h5>
+                                        <button type="button" class="ci ci-lg-circle btn bg-faded-danger btn-icon" data-dismiss="modal" aria-label="Close">
+                                          <span aria-hidden="true">&times;</span>
+                                        </button>
+                                      </div>
+                                      <div class="modal-body">
+                                        Now your Wallet balance is : Rs.<scan style="color:red"><%=userDatas.wallet%></scan>/-
+                                      </div>
+                                      
+                                    </div>
+                                  <%} else {%>
+                                    <div class="modal-content">
+                                      <div class="modal-header">
+                                        <h5 class="modal-title " id="exampleModalLabel">Your Wallet</h5>
+                                        <button type="button" class="ci ci-lg-circle btn bg-faded-danger btn-icon" data-dismiss="modal" aria-label="Close">
+                                          <span aria-hidden="true">&times;</span>
+                                        </button>
+                                      </div>
+                                      <div class="modal-body">
+                                        Now your Wallet balance is : Rs.<scan style="color:red"><%=userDatas.wallet%></scan>/-
+                                      </div>
+                                      <div class="modal-footer">
+                                      <a href="/shop" class="btn btn-success btn-sm"  style="width: 130px;height: 30px; font-size: 10px;" >PURCHASE PRODUCT</a>
+                                      </div>
+                                    </div>
+                                  <%} %>
+                                  
+                                </div>
+                            </div>
+                        </div>
+                        <table class="table table-hover mb-0" >
+                            <thead>
+                              <tr>
+                                <th  style="font-size:small;">SI.No:</th>
+                                <th  style="font-size:small;">Order ID</th>
+                                <th  style="font-size:small;">Date Purchased</th>
+                                <th  style="font-size:small;">Status</th>
+                                <th  style="font-size:small;">Amount</th>
+                                <th  style="font-size:small;">Payment Method</th>
+                                <th  style="font-size:small;">Detailes</th>
+                              </tr>
+                            </thead>
+                            
+                            <tbody>
+                                <tr>
+                                    <td class="py-3"></td>
+                                </tr>
+                            </tbody>
+                             
+                      
+                        </table>
+                    </div>
+                </section>
+            </div>
+        </div>
+        </main>
+
+        <%-include("../user/layouts/footer.ejs")%>

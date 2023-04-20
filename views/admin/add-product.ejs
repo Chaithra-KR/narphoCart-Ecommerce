@@ -1,0 +1,101 @@
+<%-include("../admin/layouts/header.ejs") %>
+
+<section class="col-lg-8 pt-lg-4 pb-4 mb-3">
+
+<div class="container-fluid d-flex justify-content-center align-items-center " style="height: 100%; width: 100%;margin-right: 10%;">
+    <div class="col-md-6 pt-4 mt-3 mt-md-0  me-5" style="width: 100%;">
+        <h2 class="h4 mb-3 d-flex justify-content-center">Add Product</h2>
+        <form action="/admin/productmanagement" method="post" enctype="multipart/form-data" style="margin-left: 50px; margin-right: 50px;" autocomplete="on" >
+            <div class="mb-3">
+                <label class="form-label">Product Name</label>
+                <input class="form-control" type="text" name="product" required>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Description</label>
+                <input class="form-control" type="text" name="description"  required>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Category</label>
+                <select name="categoryName" >
+                    <%categoryDatas.forEach(function(categoryDatas,i){%>
+                       <option value="<%=categoryDatas._id%>"><%=categoryDatas.categoryname%></option>
+                    <%}); %>
+                </select>
+            </div>
+            
+            <div class="mb-3 " >
+                <div id="preview" class="col-lg-3 mt-4 d-flex flex-row"></div>
+                <label  class="form-label">Image</label>
+                <input class="form-control" type="file" id="fileInput" name="image" accept="image/*" multiple required>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">stock</label>
+                <input type="text" name="stock" min="0" max="100">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <label>Status</label>
+                <select name="status" id="stockstatus">
+                <option value="Available">active </option>
+                <option value="Out of stock">expired </option>
+                </select>
+              
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Price</label>
+                <input class="form-control" type="number" name="price" required>
+            </div>
+
+           
+
+           
+            <div class="col-12 d-flex mt-4" style="justify-content: flex-end; margin-bottom: 20px;">
+                <button class="btn btn-danger " style="width: 100px;margin-left: 28rem;" type="reset">Reset</button>
+                <button class="btn btn-success" style="width: 100px;margin-left: 12px;" type="submit">Submit</button>
+            </div>
+
+            <div id="notify">
+            <%if(typeof message !=="undefined"){ %>
+                <p style="color: green;"><%=message %></p>
+            <% }if(typeof errormessage!=="undefined"){ %>
+                <p style="color: rgb(158, 46, 31);"><%=errormessage%></p>
+            <% } %>
+
+            </div>
+
+    </div>
+</div>
+</section>
+
+<script>
+    const fileInput = document.getElementById('fileInput');
+    const preview = document.getElementById('preview');
+  
+    fileInput.addEventListener('change', () => {
+      preview.innerHTML = '';
+      const files = fileInput.files;
+  
+      for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+        const reader = new FileReader();
+  
+        reader.addEventListener('load', () => {
+          const img = new Image();
+          img.src = reader.result;
+          preview.appendChild(img);
+        });
+  
+        reader.readAsDataURL(file);
+      }
+    });
+  
+   </script>
+
+<script>
+    setTimeout(()=>{
+        document.getElementById("notify").remove()
+    },3000)
+</script>
+
+

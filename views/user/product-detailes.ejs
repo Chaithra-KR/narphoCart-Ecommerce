@@ -1,0 +1,246 @@
+<%-include("../user/layouts/header.ejs") %>
+
+<div>
+
+  <div class="page-title-overlap bg-dark pt-4">
+      <div class="container d-lg-flex justify-content-between py-2 py-lg-3">
+        
+      </div>
+  </div>
+
+  <div class="container">
+    <div class="bg-light shadow-lg rounded-3">
+      
+      <div class="px-4 pt-lg-3 pb-3 mb-5">
+        <div class="tab-content px-lg-3">
+          <!-- General info tab-->
+          <div class="tab-pane fade show active" id="general" role="tabpanel">
+            <div class="row">
+              <!-- Product gallery-->
+              <div class="col-lg-7 pe-lg-0">
+                <div class="product-gallery">
+                  <div class="product-gallery-preview order-sm-2">
+                  
+                    <div class="product-gallery-preview-item active" id="first"><img class="image-zoom" src="/images/<%=productDatas.image[0]%>"  data-zoom="/images/<%=productDatas.image[0] %>"  alt=" product image">
+                      <div class="image-zoom-pane"></div>
+                    </div>
+                    <div class="product-gallery-preview-item " id="second"><img class="image-zoom" src="/images/<%=productDatas.image[1]%>"  data-zoom="/images/<%=productDatas.image[1] %>"  alt=" product image">
+                      <div class="image-zoom-pane"></div>
+                    </div>
+                    <div class="product-gallery-preview-item " id="third"><img class="image-zoom" src="/images/<%=productDatas.image[2]%>"  data-zoom="/images/<%=productDatas.image[2] %>"  alt=" product image">
+                      <div class="image-zoom-pane"></div>
+                    </div>
+                    <div class="product-gallery-preview-item " id="fourth"><img class="image-zoom" src="/images/<%=productDatas.image[3]%>"  data-zoom="/images/<%=productDatas.image[3] %>"  alt=" product image">
+                      <div class="image-zoom-pane"></div>
+                    </div>
+                    <div class="product-gallery-preview-item " id="fifth"><img class="image-zoom" src="/images/<%=productDatas.image[4]%>"  data-zoom="/images/<%=productDatas.image[4] %>"  alt=" product image">
+                      <div class="image-zoom-pane"></div>
+                    </div>
+                    <div class="product-gallery-preview-item " id="sixth"><img class="image-zoom" src="/images/<%=productDatas.image[5]%>"  data-zoom="/images/<%=productDatas.image[5] %>"  alt=" product image">
+                      <div class="image-zoom-pane"></div>
+                    </div>
+                
+                  </div>
+                  <div class="product-gallery-thumblist order-sm-1">
+                    <a class="product-gallery-thumblist-item active" href="#first"><img src="/images/<%=productDatas.image [0]%>"  alt="product image"></a>
+                    
+                    <% if(productDatas.image.length>=2){ %>
+                      <a class="product-gallery-thumblist-item " href="#second"><img src="/images/<%= productDatas.image[1] %>"  alt="<%=productDatas.image %>"></a>
+                    <%}else if( productDatas.image.length>=3 ){%>
+                      <a class="product-gallery-thumblist-item " href="#third"><img src="/images/<%=productDatas.image[2] %>"  alt="<%=productDatas.image %>"></a>
+                    <%}else if( productDatas.image.length>=4 ){ %>
+                      <a class="product-gallery-thumblist-item" href="#fourth"><img src="/images/<%=productDatas.image[3] %>"  alt="<%=productDatas.image %>"></a>
+                    <%}else if( productDatas.image.length>=5 ){ %>
+                        <a class="product-gallery-thumblist-item" href="#fifth"><img src="/images/<%=productDatas.image[4] %>"  alt="<%=productDatas.image %>"></a>
+                     <%}else if( productDatas.image.length>=6 ){ %>
+                        <a class="product-gallery-thumblist-item" href="#sixth"><img src="/images/<%=productDatas.image[5] %>"  alt="<%=productDatas.image %>"></a>
+                    <% } %>
+                  </div>
+                  
+                </div>
+                
+              </div>
+  
+              <!-- Product details-->
+              <div class="col-lg-5 pt-4 pt-lg-0">
+                <div class="product-details ms-auto pb-3 mt-5">
+                  <div class="h3 fw-normal text-accent mb-3 me-1"><small>Rs.</small><%=productDatas.price %><small>/-</small></div>
+                  <div class="position-relative me mb-3">
+                    <div class="product-badge product-available bg-success mt-n1"><i class="ci-security-check"></i><%=productDatas.status %></div>
+                  </div><br>
+                 
+                  <div>
+                    <b> Product:</b><br><%=productDatas.product%></b><br><br>
+                    <p><small><b> Category:</b> <%=productDatas.category.categoryname %></p>
+                    <p><b> Product ID:</b> <%=productDatas._id %></p>
+                    <p type="textarea" style="width: 270px;"><b>Product detailes</b><br><%=productDatas.description %></p>
+                    <p><b>Stock available:</b> <%=productDatas.stock %></small></p>
+                  </div>
+                  
+                  <% for(let review of productDatas.reviews){ %>
+                    <button onclick="expand()" class="btn btn-warning btn-sm d-flex align-items-center justify-content-center mb-2" style="width: 90px;height: 30px; font-size: 12px;">View Review</button>
+                    
+                    <div id="expandable" class="border mb-2">
+                    <p class="ms-2 mt-3" id="<%= review._id %>"> <scan><%=review.userId.name %></scan> :<small> <%= review.userReview %></small></p>
+                    </div>
+                  <% } %>
+
+                <div>
+                  
+                  <% if(typeof userSession !== 'undefined'){ %>
+                  <% if(productDatas.reviews.length ==0){ %>
+                  <%if (orderData.status!='Delivered') {%>
+                    
+                  <h5 class="mb-2">Leave a review</h5>
+                    
+                      <form method="post" action="/product-review">
+                          <div class="form-group">
+                              <label for="message">Your Review *</label>
+                              <textarea id="message" cols="30" rows="3" class="form-control" name="productReview"></textarea>
+                              <input type="hidden" name="pid" value="<%= productDatas._id %>">
+                          </div>
+                          <div class="form-group d-flex justify-content-end mt-1 mb-3">
+
+                                <input type="submit"  class="btn btn-primary btn-sm d-flex align-items-center justify-content-center" style="width: 70px;height: 28px; font-size: 12px;" value="Post" class="btn btn-primary px-3">
+                  <%}}}%>  
+                        
+                          </div>
+                </form>
+
+                  <div class="d-flex justify-content-evenly align-items-center mb-4 w-150">
+                    <a class="btn btn-secondary btn-sm d-block w-45 mb-2" onclick="addCart('<%=productDatas._id %>')" type="button"><i class="ci-cart fs-sm me-1"></i>Add to Cart</a>
+                    <a class="btn btn-secondary btn-sm d-block w-45 mb-2" onclick="addCart('<%=productDatas._id %>')" type="button"><i class="ci-heart fs-sm me-1"></i>Add to Wishlist</a>
+
+                  </div>
+                  <a class="btn btn-success btn-sm d-block w-50 " type="button" href="/singlecheckReview?id=<%=productDatas._id%>"><i class=" ci-arrow-right fs-lg me-2"></i>Buy Now</a>
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<style>
+  #expandable {
+    display: none;
+  }
+</style>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+<script>
+  // script for add product to cart
+  function addCart(id){
+ axios.get(`/addcart?id=${id}`).then((response)=>{
+   if(response.data.status){
+     const Toast = Swal.mixin({
+   toast: true,
+   position: 'top-end',
+   showConfirmButton: false,
+   timer: 3000,
+   timerProgressBar: true,
+   didOpen: (toast) => {
+     toast.addEventListener('mouseenter', Swal.stopTimer)
+     toast.addEventListener('mouseleave', Swal.resumeTimer)
+   }
+ })
+ 
+ Toast.fire({
+   icon: 'success',
+   title: 'Added to Cart'
+ })
+   }else{
+     const Toast = Swal.mixin({
+   toast: true,
+   position: 'top-end',
+   showConfirmButton: false,
+   timer: 4000,
+   timerProgressBar: true,
+   didOpen: (toast) => {
+     toast.addEventListener('mouseenter', Swal.stopTimer)
+     toast.addEventListener('mouseleave', Swal.resumeTimer)
+   }
+ })
+ 
+ Toast.fire({
+   icon: 'error',
+   title: 'You already added this product'
+ }) 
+   }
+ })                    
+   }
+</script>
+
+<script>
+  function quantityChange(userid,proId,count){
+      $.ajax({
+          url : '/singleqtychange',
+          data:{
+          user:userid,  
+          proId:proId,
+          count:count
+          },
+          method : 'post',
+          success : (response) => {
+              document.getElementById('singleTotalprice').innerHTML = response.total;
+          }
+      }).done((data)=>{
+        console.log(data,"data at ajax in quantity");
+        if(data.success){
+
+        }
+      })
+      document.getElementById(proId).innerHTML = parseInt(document.getElementById(proId).innerHTML)+count;
+        }
+</script>
+
+<script>
+    document.getElementById("updateReview").addEventListener('click',(e)=>{
+        e.preventDefault()
+        const review = document.getElementById('message').value
+        const pId = document.getElementById('pId').value
+        const reviewId = document.getElementById('rId').value
+        const currentReview = document.getElementById(reviewId).innerHTML
+              
+        $.ajax({
+            url:'/product-review',
+            data:{
+                productReview:review,
+                pid:pId,
+                reviewId:reviewId
+            },
+            method:"post",
+            success:(response)=>{
+                if(response.success){
+                    
+                    document.getElementById(reviewId).innerHTML = response.productReview
+                }
+            }
+        })
+    })
+</script>
+<script>
+  function expand() {
+    var x = document.getElementById("expandable");
+    if (x.style.display === "none") {
+      x.style.display = "block";
+    } else {
+      x.style.display = "none";
+    }
+  }
+</script>
+  <!-- Vendor scrits: js libraries and plugins-->
+  <script src="vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="vendor/simplebar/dist/simplebar.min.js"></script>
+  <script src="vendor/tiny-slider/dist/min/tiny-slider.js"></script>
+  <script src="vendor/smooth-scroll/dist/smooth-scroll.polyfills.min.js"></script>
+  <script src="vendor/drift-zoom/dist/Drift.min.js"></script>
+  <script src="vendor/lightgallery.js/dist/js/lightgallery.min.html"></script>
+  <script src="vendor/lg-video.js/dist/lg-video.min.html"></script>
+  <!-- Main theme script-->
+  <script src="js/theme.min.js"></script>
+
+<%-include("../user/layouts/footer.ejs") %>

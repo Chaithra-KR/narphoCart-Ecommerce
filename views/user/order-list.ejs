@@ -1,0 +1,114 @@
+<%-include("../user/layouts/header.ejs")%>
+<%-include("../user/layouts/personal-header.ejs")%>
+
+<!-- order list -->
+<section class="col-lg-8">
+    <div class="bg-light rounded-3 p-4 ">
+      <center><h5 style="color: rgb(120, 20, 11);">Order List</h5></center><br>
+      <table class="table table-hover mb-0 table-responsive" >
+        <thead>
+          <tr>
+            <th  style="font-size:small;">SI.No:</th>
+            <th  style="font-size:small;">Order ID</th>
+            <th  style="font-size:small;">Date Purchased</th>
+            <th  style="font-size:small;">Status</th>
+            <th  style="font-size:small;">Total</th>
+            <th  style="font-size:small;">Payment Method</th>
+            <th  style="font-size:small;">Detailes</th>
+          </tr>
+        </thead>
+        
+        <tbody>
+            <%orderDatas.forEach((orderDatas,i)=>{%>
+            
+          <tr>
+            <td>    
+                <%=i+1%>
+            </td>
+            <td class="py-3"><a class="nav-link-style fw-medium fs-sm" href="#order-details" data-bs-toggle="modal"><%=orderDatas._id%></a></td>
+            <td class="py-3"><%=orderDatas.date.toLocaleString()%></td>
+            <td class="py-3">
+
+            <% if(orderDatas.status=="ordered"){ %>
+            <span class="badge bg-info m-0">In Progress</span>
+            <button type="button" onclick="cancelOrder('<%=orderDatas._id %>')" class="btn btn-primary btn-sm d-flex align-items-center justify-content-center" style="width: 70px;height: 25px; font-size: 10px;">Cancel Order</button>        
+            <% }else if(orderDatas.status=="Delivered"){%>
+                <span class="badge bg-success m-0">Delivered</span>
+                <button type="button" onclick="returnOrder('<%=orderDatas._id %>')" class="btn btn-primary btn-sm d-flex align-items-center justify-content-center" style="width: 95px;height: 25px; font-size: 10px;">Return / Exchange</button> 
+            <%} else if(orderDatas.status=="cancel"){%>
+                <span class="badge bg-warning m-0">Canceled</span>
+            <%} else if(orderDatas.status=="Return processing"){%>
+                <span class="badge bg-primary m-0">Return processing</span>
+            <% } else if(orderDatas.status=="returned"){ %>
+                <span class="badge bg-primary m-0">Returned</span>
+            <% } %>
+            </td> 
+            <td class="py-3"><%=orderDatas.totalprice%></td>
+            <td class="py-3"><%=orderDatas.paymentMethod%></td>
+            <td class="py-3"><a type="button" href="/orderedProducts?id=<%=orderDatas._id %>" class="btn btn-success btn-sm d-flex align-items-center justify-content-center " style="width: 50px;height: 25px; font-size: 10px; cursor: pointer;">View</a></td>
+          </tr>
+          <%}); %>  
+        </tbody>
+       
+
+      </table>
+    </div>
+    <!-- Pagination-->
+    <!-- <nav class="d-flex justify-content-between pt-2" aria-label="Page navigation">
+      <ul class="pagination">
+        <li class="page-item"><a class="page-link" href="#"><i class="ci-arrow-left me-2"></i>Prev</a></li>
+      </ul>
+      <ul class="pagination">
+        <li class="page-item d-sm-none"><span class="page-link page-link-static">1 / 5</span></li>
+        <li class="page-item active d-none d-sm-block" aria-current="page"><span class="page-link">1<span class="visually-hidden">(current)</span></span></li>
+        <li class="page-item d-none d-sm-block"><a class="page-link" href="#">2</a></li>
+        <li class="page-item d-none d-sm-block"><a class="page-link" href="#">3</a></li>
+        <li class="page-item d-none d-sm-block"><a class="page-link" href="#">4</a></li>
+        <li class="page-item d-none d-sm-block"><a class="page-link" href="#">5</a></li>
+      </ul>
+      <ul class="pagination">
+        <li class="page-item"><a class="page-link" href="#" aria-label="Next">Next<i class="ci-arrow-right ms-2"></i></a></li>
+      </ul>
+    </nav> -->
+  </section>
+</div>
+</div>  
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+
+<script>
+    // to cancel order
+    function cancelOrder(orderId){
+        console.log(orderId,"hereee");
+        $.ajax({
+            url:'/cancelOrder',
+            method:'post',
+            data:{
+                orderId:orderId
+            },success:(response)=>{
+
+            }
+        }).then((data)=>{
+            location.reload()
+        })
+    }
+
+    // to return order
+    function returnOrder(orderId){
+        console.log(orderId,"return order here");
+        $.ajax({
+            url:'/returnOrder',
+            method:'post',
+            data:{
+                orderId:orderId
+            },success:(response)=>{
+
+            }
+        }).then((data)=>{
+            location.reload()
+        })
+    }
+</script>
+
+<%-include("../user/layouts/footer.ejs")%>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>registration page</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+</head>
+<body>
+  
+
+
+  <div class="container-fluid d-flex justify-content-center align-items-center  vh-100" >
+    <div class="col-md-6 pt-4 mt-3 mt-md-0 border border-2 ">
+      <h2 class="h4 mb-3 d-flex justify-content-center">Registration page</h2><br>
+      <form method="post" action="/register">
+        <div class="row gx-4 gy-3 border-2" style="margin-left: 20px;margin-right: 20px;"  >
+          <div class="col-sm-6">
+            <label class="form-label" for="name"> Name</label>
+            <input class="form-control" name="name" type="text" required id="reg-fn">
+            <div class="invalid-feedback">Please enter your first name!</div>
+          </div>
+
+          <div class="col-sm-6">
+            <label class="form-label" for="email">E-mail Address</label>
+            <input class="form-control" name="email" type="email" required id="reg-email">
+            <div class="invalid-feedback">Please enter valid email address!</div>
+          </div>
+
+          <div class="col-sm-6">
+            <label class="form-label" for="mobile">Phone Number</label>
+            <input class="form-control" name="mobile" type="text" required id="reg-phone">
+            <div class="invalid-feedback">Please enter your phone number!</div>
+          </div>
+
+          <div class="col-sm-6">
+            <label class="form-label" for="password">Password</label>
+            <input class="form-control" name="password" type="password" required id="reg-password">
+            <div class="invalid-feedback">Please enter password!</div>
+          </div><br><br>
+
+          <div class="col-12 d-flex " style="justify-content: flex-end; margin-bottom: 20px;">
+            <a style="text-decoration: none;" href="/login">Back</a>
+            <button class="btn btn-danger " style="width: 100px;margin-left: 28rem;" type="reset">Reset</button>
+            <button class="btn btn-success" style="width: 100px;margin-left: 12px;" type="submit">Submit</button>
+          </div>
+
+          <div id="notification">
+          <% if(typeof message !=="undefined" ){ 
+            %>
+            <p style="color:green"><%=message%></p>
+            <% }else if(typeof errorMessage !=="undefined"){ %>
+              <p style="color:rgb(240, 52, 27)"><%=errorMessage%></p>
+            <% } %>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  </div>
+  </div>
+
+  <script>
+    setTimeout(()=>{
+      document.getElementById("notification").remove()
+    },3000)
+  </script>
+
+</body>
+</html>

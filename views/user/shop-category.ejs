@@ -1,0 +1,333 @@
+<%- include('../user/layouts/header.ejs') %>
+
+ <!-- Page Title-->
+ <div class="page-title-overlap bg-dark pt-4">
+    <div class="container d-lg-flex justify-content-between py-2 py-lg-3">
+      <div class="order-lg-1 pe-lg-4 text-center text-lg-start">
+        <h1 class="h3 text-light mb-0">Shop</h1>
+      </div>
+    </div>
+  </div>
+  <div class="container pb-5 mb-2 mb-md-4">
+    <div class="row">
+      <!-- Sidebar-->
+      <aside class="col-lg-4">
+        <!-- Sidebar-->
+        <div class="offcanvas offcanvas-collapse bg-white w-100 rounded-3 shadow-lg py-1" id="shop-sidebar" style="max-width: 22rem;">
+          <div class="offcanvas-header align-items-center shadow-sm">
+            <h2 class="h5 mb-0">Filters</h2>
+            <button class="btn-close ms-auto" type="button" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body py-grid-gutter px-lg-grid-gutter">
+            <!-- Categories-->
+            <div class="widget widget-categories mb-4 pb-4 border-bottom">
+              <div class="accordion mt-n1" id="shop-categories">
+
+                <div class="accordion-item ">
+                  <a href="#products" role="button" data-bs-toggle="collapse" aria-expanded="true" aria-controls="products">Categories</a>
+                    <div id="products" data-bs-parent="#shop-categories">
+                      <div class="accordion-body">
+                        <div class="widget widget-links widget-filter">
+                          <div class="input-group input-group-sm mb-2">
+                            <input class="widget-filter-search form-control rounded-end" type="text" placeholder="Search"><i class="ci-search position-absolute top-50 end-0 translate-middle-y fs-sm me-3"></i>
+                          </div>
+                          <ul class="widget-list widget-filter-list pt-1 ps-2 " style="height: 5rem;" data-simplebar data-simplebar-auto-hide="false">
+                                        <li style="list-style: none; " class="ps-2 "><small><a style="color:rgb(91, 94, 96) " href="/shop">All categories</a></small></li>
+                              <% if (categoryData) {
+                                for (let i = 0; i < categoryData.length; i++) { %>
+                                  <li style="list-style: none; " class="ps-2">
+                                    <small>
+                                      <a style="color:rgb(91, 94, 96)"  onclick="category('<%= categoryData[i]._id %>')" ><%= categoryData[i].categoryname %></a>
+                                    </small>  
+                                  </li>          
+                                  <% } %>
+                              <% } else { %>
+                                <small>Product not found</small>
+                              <% } %>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                </div>
+                
+              </div>
+            </div>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Content  -->
+      <section class="col-lg-8">
+
+        <!-- Toolbar-->
+        <div class="d-flex justify-content-center justify-content-sm-between align-items-center pt-2 pb-4 pb-sm-5">
+          <div class="d-flex flex-wrap">
+            <div class="d-flex align-items-center flex-nowrap me-3 me-sm-4 pb-3">
+              <label class="text-light opacity-75 text-nowrap fs-sm me-2 d-none d-sm-block" for="sorting">Sort by:</label>
+              <select class="form-select" id="sorting" onchange="filterProducts()">
+                <option selected>Price</option>
+                <option value="Low to high">Low to high</option>
+                <option value="High to low">High to low</option>
+              </select>
+            </div>
+          </div>
+          <a class="topbar-link d-none d-md-inline-block" href="/wishlist"><i class="ci-heart mt-n1"></i>&nbsp;Wishlist </a>
+        </div>
+
+
+        <div class="row mx-n2" id="product">
+
+          <%if(userSession){%>
+          <% productDatas.forEach(element => {%>
+                    
+          <div class="col-md-4 col-sm-6 px-2 mb-4">
+            <div class="card product-card">
+
+              <% if (JSON.stringify(wishId).includes(element._id)){ %>
+              <button class="btn-wishlist btn-sm" onclick="addToWishlist('<%=element._id%>', this)">
+                <i class="ci-heart-filled text-danger"></i>
+              </button>
+            <% } else { %>
+              <button class="btn-wishlist btn-sm" onclick="addToWishlist('<%=element._id%>', this)">
+                <i class="ci-heart"></i>
+              </button>
+          <%}%>
+                <a class="card-img-top d-block overflow-hidden" ><img src="/images/<%=element.image[0] %>" alt="Product"></a>
+              <div class="card-body py-2"><a class="product-meta d-block fs-xs pb-1" href="#"><%=element.category.categoryname %></a>
+                <h3 class="product-title fs-sm"><a href=""><%=element.product%></a></h3>
+                <div class="d-flex justify-content-between">
+                  <div class="product-price"><span class="text-accent"><small>Rs.</small><%=element.price%>/-</span></div>
+                </div>
+              </div>
+              <div class="card-body card-body-hidden">
+                <a class="btn btn-primary btn-sm d-block w-100 mb-2" onclick="addCart('<%=element._id %>')" type="button"><i class="ci-cart fs-sm me-1"></i>Add to Cart</a>
+              </div>
+            </div>
+            <hr class="d-sm-none">
+          </div>
+          <%}); %>
+
+          <%}else{%>
+
+
+          <% productDatas.forEach(element => {%>        
+          <div class="col-md-4 col-sm-6 px-2 mb-4">
+            <div class="card product-card">
+            
+              <button class="btn-wishlist btn-sm" onclick="addToWishlist('<%=element._id%>', this)">
+                <i class="ci-heart"></i>
+              </button>
+
+                <a class="card-img-top d-block overflow-hidden" ><img src="/images/<%=element.image[0] %>" alt="Product"></a>
+              <div class="card-body py-2"><a class="product-meta d-block fs-xs pb-1" href="#"><%=element.category.categoryname %></a>
+                <h3 class="product-title fs-sm"><a href=""><%=element.product%></a></h3>
+                <div class="d-flex justify-content-between">
+                  <div class="product-price"><span class="text-accent"><small>Rs.</small><%=element.price%>/-</span></div>
+                </div>
+              </div>
+              <div class="card-body card-body-hidden">
+                <a class="btn btn-primary btn-sm d-block w-100 mb-2" onclick="addCart('<%=element._id %>')" type="button"><i class="ci-cart fs-sm me-1"></i>Add to Cart</a>
+              </div>
+            </div>
+            <hr class="d-sm-none">
+          </div>
+          <%}); %>
+          <%}%>
+
+          <div id="products">
+          </div>
+
+          </div>
+          <hr class="my-3">
+        
+                   
+          <nav class="d-flex justify-content-between pt-2" aria-label="Page navigation">
+          <ul class="pagination">
+            <% if (currentPage == 1) { %>
+              <li class="page-item"><a class="page-link"><i class="ci-arrow-left me-2"></i>Prev</a></li>
+            <% } else { %>
+              <li class="page-item"><a class="page-link" onclick="category('<%= currentPage-1 %>')" ><i class="ci-arrow-left me-2"></i>Prev</a></li>
+            <% } %>
+          </ul>
+          <ul class="pagination">
+            <li class="page-item d-sm-none"><span class="page-link page-link-static"><%= currentPage %> / <%= Math.ceil(totalPages) %></span></li>
+            <% for (let i = 1; i <= Math.ceil(totalPages); i++) { %>
+              <% if (i == currentPage) { %>
+                <li class="page-item active d-none d-sm-block" aria-current="page"><span class="page-link"><%= i %><span class="visually-hidden">(current)</span></span></li>
+              <% } else { %>
+                <li class="page-item d-none d-sm-block"><a class="page-link"  onclick="category('<%= i %>')" ><%= i %></a></li>
+              <% } %>
+            <% } %>
+          </ul>
+          <ul class="pagination">
+            <% if (currentPage == totalPages) { %>
+            <li class="page-item"><a class="page-link" aria-label="Next">Next<i class="ci-arrow-right ms-2"></i></a></li>
+              <% } else { %>
+            <li class="page-item"><a class="page-link"  onclick="category('<%= currentPage- -1 %>')"  aria-label="Next">Next<i class="ci-arrow-right ms-2"></i></a></li>
+              <% } %>
+          </ul>
+        </nav>
+      </section>
+    </div>
+  </div>
+</main>
+
+<script>
+
+  // script for wishlist
+
+ function addWish(id){
+ axios.get(`/addwish?id=${id}`).then((response)=>{
+   if(response.data.status){
+     const Toast = Swal.mixin({
+   toast: true,
+   position: 'top-end',
+   showConfirmButton: false,
+   timer: 3000,
+   timerProgressBar: true,
+   didOpen: (toast) => {
+     toast.addEventListener('mouseenter', Swal.stopTimer)
+     toast.addEventListener('mouseleave', Swal.resumeTimer)
+   }
+ })
+ 
+ Toast.fire({
+   icon: 'success',
+   title: 'Added to Wishlist'
+ })
+   }else{
+     const Toast = Swal.mixin({
+   toast: true,
+   position: 'top-end',
+   showConfirmButton: false,
+   timer: 4000,
+   timerProgressBar: true,
+   didOpen: (toast) => {
+     toast.addEventListener('mouseenter', Swal.stopTimer)
+     toast.addEventListener('mouseleave', Swal.resumeTimer)
+   }
+ })
+ 
+ Toast.fire({
+   icon: 'error',
+   title: 'You already added this product'
+ }) 
+   }
+ })                    
+   }
+
+
+//  script for search
+
+  function searchList() {
+      var input, filter, ul, li, a, i, txtValue;
+      input = document.getElementById('searchInput');
+      filter = input.value.toUpperCase();
+      ul = document.getElementById("list");
+      li = ul.getElementsByTagName('li');
+
+      for (i = 0; i < li.length; i++) {
+          a = li[i];
+          txtValue = a.textContent || a.innerText;
+          if (txtValue.toUpperCase().indexOf(filter) > -1) {
+              li[i].style.display = "block";
+          } else {
+              li[i].style.display = "none";
+          }
+      }
+  }
+  document.getElementById("searchButton").addEventListener("click", searchList);
+  document.getElementById("searchInput").addEventListener("keyup", function(event) {
+      if (event.keyCode === 13) {
+          event.preventDefault();
+          searchList();
+      }
+  });
+
+
+function category(id){
+  $.ajax({
+    url:"/category",
+    method:'post',
+    data:{
+      id:id
+    },success:(response=>{
+      let products = document.getElementById('products')
+      products.innerHTML = null;
+      productDatas.forEach(element =>{
+        products.innerHTML+= `
+                            <div class="col-md-4 col-sm-6 px-2 mb-4">
+                              <div class="card product-card">
+                                ${JSON.stringify(wishId).includes(element._id)
+                                  ? `<button class="btn-wishlist btn-sm" onclick="addToWishlist('${element._id}', this)"><i class="ci-heart-filled text-danger"></i></button>`
+                                  : `<button class="btn-wishlist btn-sm" onclick="addToWishlist('${element._id}', this)"><i class="ci-heart"></i></button>`
+                                }
+                                <a class="card-img-top d-block overflow-hidden"><img src="/images/${element.image[0]}" alt="Product"></a>
+                                <div class="card-body py-2"><a class="product-meta d-block fs-xs pb-1" href="#">${element.category.categoryname}</a>
+                                  <h3 class="product-title fs-sm"><a href="">${element.product}</a></h3>
+                                  <div class="d-flex justify-content-between">
+                                    <div class="product-price"><span class="text-accent"><small>Rs.</small>${element.price}/-</span></div>
+                                  </div>
+                                </div>
+                                <div class="card-body card-body-hidden">
+                                  <a class="btn btn-primary btn-sm d-block w-100 mb-2" onclick="addCart('${element._id}')" type="button"><i class="ci-cart fs-sm me-1"></i>Add to Cart</a>
+                                </div>
+                              </div>
+                              <hr class="d-sm-none">
+                            </div>
+                          `;
+      })
+
+    })
+  }).then((data)=>{
+
+  })
+}
+
+// script for add product to cart
+
+
+  function addCart(id){
+ axios.get(`/addcart?id=${id}`).then((response)=>{
+   if(response.data.status){
+     const Toast = Swal.mixin({
+   toast: true,
+   position: 'top-end',
+   showConfirmButton: false,
+   timer: 3000,
+   timerProgressBar: true,
+   didOpen: (toast) => {
+     toast.addEventListener('mouseenter', Swal.stopTimer)
+     toast.addEventListener('mouseleave', Swal.resumeTimer)
+   }
+ })
+ 
+ Toast.fire({
+   icon: 'success',
+   title: 'Added to Cart'
+ })
+   }else{
+     const Toast = Swal.mixin({
+   toast: true,
+   position: 'top-end',
+   showConfirmButton: false,
+   timer: 4000,
+   timerProgressBar: true,
+   didOpen: (toast) => {
+     toast.addEventListener('mouseenter', Swal.stopTimer)
+     toast.addEventListener('mouseleave', Swal.resumeTimer)
+   }
+ })
+ 
+ Toast.fire({
+   icon: 'error',
+   title: 'You already added this product'
+ }) 
+   }
+ })                    
+   }
+</script>
+
+  <script src="vendor/smooth-scroll/dist/smooth-scroll.polyfills.min.js"></script>
+  <script src="js/theme.min.js"></script>
+<%-include("../user/layouts/footer.ejs") %>

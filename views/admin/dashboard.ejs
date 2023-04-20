@@ -1,0 +1,148 @@
+<%-include("../admin/layouts/header.ejs")%>
+<link rel="stylesheet" href="/css/custom.css">
+
+  
+
+<section class="col-lg-8 pt-lg-4 pb-4 mb-3 container-fluid">
+
+  <div class="row mx-n2 pt-2">
+    
+    <div class="col-md-3 col-sm-6 px-2 mb-4">
+      <div class="bg-secondary h-100 rounded-3 p-4 text-center">
+        <h3 class="fs-sm text-muted">Total orders</h3>
+        <p class="h2 mb-2"><small><%=totalOrder %></small></p>
+        <p class="fs-ms text-muted mb-0">Total finished delivery: <b><%=totalDelivery%></b></p>
+      </div>
+    </div>
+    <div class="col-md-3 col-sm-6 px-2 mb-4">
+      <div class="bg-secondary h-100 rounded-3 p-4 text-center">
+        <h3 class="fs-sm text-muted">Total customers</h3>
+        <p class="h2 mb-2"><small><%=totalUsers %></small></p>
+        <p class="fs-ms text-muted mb-0">Based on registered list</p>
+      </div>
+    </div>
+    <div class="col-md-3 col-sm-12 px-2 mb-4">
+      <div class="bg-secondary h-100 rounded-3 p-4 text-center">
+        <h3 class="fs-sm text-muted"> Produts & categories</h3>
+        <p class="fs-ms text-muted mb-0">Total Categories : <b><%=category %></b></p>
+        <p class="fs-ms text-muted mb-0">Total products : <b><%=products %></b></p>
+      </div>
+    </div>
+    <div class="col-md-3 col-sm-6 px-2 mb-4">
+      <div class="bg-secondary h-100 rounded-3 p-4 text-center">
+        <h3 class="fs-sm text-muted">Payment Methods</h3>
+        <p class="h2 mb-2"><small>2</small></p>
+        <p class="fs-ms text-muted mb-0">1.Razorpay</p>
+        <p class="fs-ms text-muted mb-0">2.Cash On Delivery</p>
+
+      </div>
+    </div>
+  </div>
+
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+<div>
+<div class="m-0 p-0" id="myChart" style="max-width:600px; height:400px;">
+</div>
+
+<script>
+  const orderCanceled = parseInt('<%=Canceled%>')
+  const Ordered = parseInt('<%=Ordered%>')
+  const Returned = parseInt('<%=Returned%>')
+  const returnProcessing =parseInt('<%=returnProcessing%>') 
+  const Delivered = parseInt('<%=Delivered%>')
+  
+  console.log(orderCanceled,Ordered,Returned,returnProcessing,Delivered,'-----data here');
+google.charts.load('current', {'packages':['corechart']});
+google.charts.setOnLoadCallback(drawChart);
+
+function drawChart() {
+const data = google.visualization.arrayToDataTable([
+  ['','Mhl'],
+  ['Ordered',Ordered],
+  ['Returned',Returned],
+  [' Return processing',returnProcessing],
+  ['Delivered',Delivered],
+  ['Canceled',orderCanceled]
+]);
+const options = {
+  title:'Sales status here',
+  is3D:true
+};
+
+const chart = new google.visualization.PieChart(document.getElementById('myChart'));
+  chart.draw(data, options);
+}
+
+</script>
+
+</div>
+
+
+<!-- weekly sales -->
+
+<% let a = 0,b = 0,c = 0,d = 0,e = 0,f = 0,g = 0%>
+<% for (let i = 0; i < OrderData.length; i++) {
+  const date = new Date(OrderData[i].date);
+  const dayOfWeek = date.toLocaleDateString('en-US', { weekday: 'long' });
+  if (  dayOfWeek.toUpperCase() == 'SUNDAY') {
+      a++;
+  }
+  if (  dayOfWeek.toUpperCase() == 'MONDAY') {
+      b++;
+  }
+  if (  dayOfWeek.toUpperCase() == 'TUESDAY') {
+      c++;
+  }
+  if (  dayOfWeek.toUpperCase() == 'WEDNESDAY') {
+      d++;
+  }
+  if (  dayOfWeek.toUpperCase() == 'THURSDAY') {
+      e++;
+  }
+  if (  dayOfWeek.toUpperCase() == 'FRIDAY') {
+      f++;
+  }
+  if (  dayOfWeek.toUpperCase() == 'SATURDAY') {
+      g++;
+  }
+
+%>
+
+<% } %>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+<canvas id="myChartt"style="max-width:600px; height:500px;"></canvas>
+<script>
+   const a= parseInt('<%=a%>');
+   const b= parseInt('<%=b%>');
+   const c= parseInt('<%=c%>');
+   const d= parseInt('<%=d%>');
+   const e= parseInt('<%=e%>');
+   const f= parseInt('<%=f%>');
+   const g= parseInt('<%=g%>');
+console.log(a,b,c,d,e,f,g,"days");
+var xValues =  ["SUN", "MON", "TUES", "WED", "THURS", "FRI", "SAT"];
+var yValues = [ a, b, c, d,e,f,g];
+var barColors = ["green", "violet","indigo","blue","yellow","orange","skyblue"];
+
+new Chart("myChartt", {
+  type: "bar",
+  data: {
+    labels: xValues,
+    datasets: [{
+      backgroundColor: barColors,
+      data: yValues
+    }]
+  },
+  options: {
+    legend: {display: false},
+    title: {
+      display: true,
+      text: "Weekly sales graphical representation"
+    }
+  }
+});
+</script>
+
+</section>

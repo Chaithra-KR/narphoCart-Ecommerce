@@ -1,0 +1,104 @@
+<%-include("../admin/layouts/header.ejs") %>
+
+  <section class="col-lg-8 pt-lg-4 pb-4 mb-3">
+    <div class="pt-2 px-4 ps-lg-0 pe-xl-5">
+      <div class="container-fluid" style="display: flex; justify-content: space-between;">
+        <p class="h3 pt-2 pb-4 mb-1 " style="font-family:Arial, Helvetica, sans-serif">Order management</p>      
+      </div>
+      <table class="table" id="order">
+              <thead>
+                <tr>
+                  <th scope="col" style="font-size:small;">SI.no:</th>
+                  <th scope="col"style="font-size:small;">Date</th>
+                  <th scope="col"style="font-size:small;"> Order ID</th>
+                  <th scope="col" style="font-size:small;">Address</th>
+                  <th scope="col" style="font-size:small;">Status</th>
+                  <th scope="col" style="font-size:small;">Payment method</th>
+                  <th scope="col" style="font-size:small;">Detailes</th>
+                </tr>
+              </thead>
+
+              <%orderDatas.forEach((orderDatas,i)=> {%>
+                <tbody>
+                <tr>
+                  <td><small><%=i+1%></small></td>
+                  <td><small><%=orderDatas.date.toLocaleString() %></small></td>
+                  <td><small><%=orderDatas._id %></small></td>
+                  <td>
+                    <p><small><b> <%=orderDatas.address.name%>
+                    </b></small>
+                    <small>-<%=orderDatas.address.phone %></small>
+                    <p><small><%=orderDatas.address.houseName%>(H),</small></p>
+                    <p><small><%=orderDatas.address.city +',' +orderDatas.address.distrit+','+orderDatas.address.pin%>&nbsp;(pin)</small></p>
+                  </td>
+                  <td>
+                    
+                    <%if(orderDatas.status=="ordered"){%>
+                        <small class="badge bg-info m-0"><%=orderDatas.status %></small>
+                        <button type="button" onclick="orderStatuss('<%=orderDatas._id%>')" class="btn btn-primary btn-sm d-flex align-items-center justify-content-center " style="width: 70px;height: 25px; font-size: 10px; cursor: pointer;">Delivered</button>
+                    <%}else if(orderDatas.status=="Delivered"){%>
+                        <small class="badge bg-success m-0"><%=orderDatas.status %></small>
+                    <% } else if(orderDatas.status=="cancel") {%>
+                        <small class="badge bg-primary m-0">Order Cancelled</small>
+                    <% } else if(orderDatas.status=="Return processing") {%>  
+                        <small class="badge bg-info m-0">Return request</small>
+                        <button type="button" onclick="orderReturnSts('<%=orderDatas._id%>')" class="btn btn-primary btn-sm d-flex align-items-center justify-content-center " style="width: 90px;height: 25px; font-size: 10px; cursor: pointer;">confirm return</button>
+                    <% }else if(orderDatas.status=="returned"){ %>
+                        <small class="badge bg-warning m-0">Returned</small>
+                    <% } %>
+
+                  </td>
+                  <td><small><%=orderDatas.paymentMethod %></small></td>
+                  <td>
+                    <a type="button" href="/admin/orderDetailes?id=<%=orderDatas._id %>" class="btn btn-success btn-sm d-flex align-items-center justify-content-center " style="width: 50px;height: 25px; font-size: 10px; cursor: pointer;">View</a>
+                  </td>
+
+                </tr>
+                <%}); %>
+                </tbody>
+
+      </table>
+    </div>
+  </section>
+
+
+  <script>
+
+    //to change the status ordered=>delivered
+    function orderStatuss(orderId){
+        console.log(orderId);
+        $.ajax({
+            url:'/admin/orderStatus',
+            method:'post',
+            data:{
+                orderId:orderId
+            },success:(response)=>{
+
+            }
+        }).done((data)=>{
+            location.reload()
+        })
+    }
+
+    //to change the status return processing=>returned
+    function orderReturnSts(orderId){
+        console.log(orderReturnSts,'status is here');
+        $.ajax({
+            url:'/admin/orderReturnSts',
+            method:'post',
+            data:{
+                orderId:orderId
+            },success:(response)=>{
+
+            }
+        }).done((data)=>{
+            location.reload()
+        })
+    }
+
+    // table script
+    $(document).ready( function () {
+    $('#order').DataTable();
+    $('.dataTables_length').addClass('bs-select');
+    } );
+  </script>

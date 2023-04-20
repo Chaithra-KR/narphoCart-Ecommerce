@@ -1,0 +1,36 @@
+<%-include("../admin/layouts/header.ejs") %>
+
+<section class="col-lg-8 pt-lg-4 pb-4 mb-3">
+
+<div class="container-fluid d-flex justify-content-center align-items-center " style="height: 100%; width: 100%;margin-right: 10%;">
+    <div class="col-md-6 pt-4 mt-3 mt-md-0  me-5" style="width: 100%;">
+        <h2 class="h4 mb-3 d-flex justify-content-center">Edit category</h2>
+        <form action="/admin/editcategory?id=<%=categoryDatas._id%>" method="post" style="margin-left: 50px; margin-right: 50px;" class="needs-validation tab-pane fade show active" autocomplete="on" id="signin-tab">
+            <div class="mb-3">
+                <label class="form-label">Category Name</label>
+                <input class="form-control" type="text" name="categoryname" value="<%=categoryDatas.categoryname%>" required>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Description</label>
+                <input class="form-control" type="text" name="description" value="<%=categoryDatas.description%>" required>
+            </div>
+            <div class="col-12 d-flex mt-4" style="justify-content: flex-end; margin-bottom: 20px;">
+                <button class="btn btn-danger " style="width: 100px;margin-left: 28rem;" type="reset">Reset</button>
+                <button class="btn btn-success" style="width: 100px;margin-left: 12px;" type="submit">Submit</button>
+            </div>
+
+            <%if(typeof errormessage!=="undefined"){ %>
+                <p style="color: rgb(158, 46, 31);"><%=errormessage%></p>
+            <% } %>
+
+    </div>
+</div>
+</section>
+
+<script>
+    setTimeout(()=>{
+        document.getElementById("notify").remove()
+    },3000)
+</script>
+

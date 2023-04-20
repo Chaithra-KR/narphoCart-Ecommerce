@@ -1,0 +1,15 @@
+@media(max-width:990px){
+    #myChart{
+        max-width:440px;
+        height:500px;
+        margin-left: -10px;
+    }
+    #h22222{
+        display: none;
+    }
+    #dashboard-main-div{
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+}

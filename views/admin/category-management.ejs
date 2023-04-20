@@ -1,0 +1,53 @@
+<%-include("../admin/layouts/header.ejs") %>
+
+  <section class="col-lg-8 pt-lg-4 pb-4 mb-3">
+    <div class="pt-2 px-4 ps-lg-0 pe-xl-5">
+      <div class="container-fluid" style="display: flex; justify-content: space-between;">
+        <p class="h2 pt-2 pb-4 mb-0  text-center text-sm-start border-bottom">Category management</p>
+        <a style="text-decoration: none; padding-top: 1rem; " class="btn btn-success mb-3" href="/admin/addcategory">Add
+          Category</a>
+      </div>
+      <table class="table">
+        <% if(typeof message !=="undefined" ){ %>
+          <p style="color: green;">
+          <%=message %>
+          </p>
+          <% }else if(typeof errormessage !=="undefined" ){ %>
+            <p style="color: red;">
+              <%=errormessage %>
+            </p>
+            <% } %>
+              <thead>
+                <tr>
+                  <th scope="col">SI.no:</th>
+                  <th scope="col">Category name</th>
+                  <th scope="col">Description</th>
+                </tr>
+              </thead>
+
+              <%categoryDatas.forEach((categoryDatas,i)=> {%>
+
+                <tr>
+                  <td>
+                    <%=i+1%>
+                  </td>
+                  <td>
+                    <%=categoryDatas.categoryname %>
+                  </td>
+
+                  <td>
+                    <%=categoryDatas.description %>
+                  </td>
+
+                  <td><a style="text-decoration: none; color: rgb(235, 124, 12);" class="ci ci-edit mb-3"
+                      href="/admin/editcategory?id=<%=categoryDatas._id%>"></a>
+                    <a style="text-decoration: none; padding-top: 1rem; color: red;" class="ci ci-trash mb-3"
+                      href="/admin/dropCategory?id=<%=categoryDatas._id%>"></a>
+                  </td>
+                </tr>
+                <%}); %>
+                  </tbody>
+
+      </table>
+    </div>
+  </section>
