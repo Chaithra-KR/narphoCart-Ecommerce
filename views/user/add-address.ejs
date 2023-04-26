@@ -3,7 +3,7 @@
             
          <section class="col-lg-8">
             <!-- Address  adding page form-->
-            <form  method="post" action="/address" >
+            <form  method="post" action="/address" class="needs-validation row g-4" novalidate>
                 <div class=" rounded-3 p-4 mb-5">
                 </div>
                 
@@ -48,9 +48,9 @@
                           <option value="Wayanad">Wayanad</option>
                         </select>
                         </div>
-                        <div style="display: flex;justify-content:center;margin-top: 15px;">
-                        <button type="reset" class="bg-danger rounded border-0 " style="color: aliceblue;">Reset</button>&nbsp;
-                        <button type="submit" class="bg-success rounded border-0 " style="color: aliceblue;">submit</button>
+                        <div class="d-flex justify-content-end">
+                        <button type="reset" class="btn btn-danger  " >Reset</button>&nbsp;&nbsp;
+                        <button type="submit" class="btn btn-success " >submit</button>
                         </div>
                 </div>
             </form>
@@ -58,4 +58,10 @@
         </div>
     </div>
 </div>
+<script src="vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="vendor/simplebar/dist/simplebar.min.js"></script>
+<script src="vendor/tiny-slider/dist/min/tiny-slider.js"></script>
+<script src="vendor/smooth-scroll/dist/smooth-scroll.polyfills.min.js"></script>
+<script src="js/theme.min.js"></script>
+
 <%-include("../user/layouts/footer.ejs")%>

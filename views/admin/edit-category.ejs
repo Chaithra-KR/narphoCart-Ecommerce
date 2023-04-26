@@ -5,7 +5,7 @@
 <div class="container-fluid d-flex justify-content-center align-items-center " style="height: 100%; width: 100%;margin-right: 10%;">
     <div class="col-md-6 pt-4 mt-3 mt-md-0  me-5" style="width: 100%;">
         <h2 class="h4 mb-3 d-flex justify-content-center">Edit category</h2>
-        <form action="/admin/editcategory?id=<%=categoryDatas._id%>" method="post" style="margin-left: 50px; margin-right: 50px;" class="needs-validation tab-pane fade show active" autocomplete="on" id="signin-tab">
+        <form action="/admin/editcategory?id=<%=categoryDatas._id%>" method="post" style="margin-left: 50px; margin-right: 50px;" autocomplete="on" >
             <div class="mb-3">
                 <label class="form-label">Category Name</label>
                 <input class="form-control" type="text" name="categoryname" value="<%=categoryDatas.categoryname%>" required>
@@ -33,4 +33,3 @@
         document.getElementById("notify").remove()
     },3000)
 </script>
-

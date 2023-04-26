@@ -13,11 +13,20 @@ const user=new mongoose.Schema({
         type:Number,
         required:true
     },
-
+    dob:{
+        type:Date,
+        required:true
+    },
     password:{
         type:String,
         required:true
     },
+   
+    singlequantity:{
+        type:Number,
+        default:1
+    },
+
     address:[
         {
             name:{
@@ -42,6 +51,8 @@ const user=new mongoose.Schema({
           
         }
     ],
+     
+  
     cart:{
             items: [{
                 products:{
@@ -67,7 +78,7 @@ const user=new mongoose.Schema({
                 }],
                 totalprice:{
                     type:Number,
-                    default:1
+                    default:0
                 },
                 discount:{
                     type:Number,

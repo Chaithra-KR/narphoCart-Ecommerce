@@ -14,10 +14,14 @@
                 <label class="form-label">Description</label>
                 <input class="form-control" type="text" name="description" value="<%=productDatas.description %>"  required>
             </div>
+
+      
+    
             <div class="mb-3" >
             
                 <label class="form-label">Category</label>
                 <select name="categoryName" class="me-10">
+                  <option value="<%=productDatas.category._id%>"><%=productDatas.category.categoryname%></option>
                     <%categoryDatas.forEach((categoryDatas,i)=>{%>
                         <option value="<%=categoryDatas._id%>"><%=categoryDatas.categoryname%></option>
                      <%}); %>
@@ -71,11 +75,6 @@
 </section>
 
 
-<!-- <script>
-    function viewImage(event){
-        document.getElementById("imgView").src = URL.createObjectURL(event.target.files[0])
-    }
-</script> -->
 
 <script>
     setTimeout(()=>{

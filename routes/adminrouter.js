@@ -61,7 +61,7 @@ adminRoute.post('/export',adminAuth.isLogin,adminController.exportSales)
 
 adminRoute.get("/adminlogout",adminController.adminLogout)
 
-
+    
 
 
 module.exports=adminRoute

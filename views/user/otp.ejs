@@ -15,19 +15,19 @@
   <div class="col-md-6 pt-4 mt-3 mt-md-0 border border-2 ">
       <h2 class=" mb-3 d-flex justify-content-center">Verification code</h2><br>
       <center><p>Please enter the verification code sent to Email</p></center>
-      <form action="/otp" method="post" style="margin-left: 80px; margin-right: 80px;">
+      <form action="/otp" method="post" style="margin-left: 80px; margin-right: 80px;" class="needs-validation row g-4" novalidate >
         
           <div>
-            <input name="otp"  id="form3Example5cd" class="form-control" placeholder="Enter your OTP" />
+            <input name="otp" required class="form-control" placeholder="Enter your OTP" />
           </div>
-
+          <div id="notification">
           <% if(typeof message !=="undefined" ){ %>
             <p style="color: red;text-align: center;"><%=message%></p>
           <% } %>
-          
-          <div class="d-flex flex-column mt-2 ">
+          </div>
+          <div class="d-flex flex-column mt-2 mb-5">
             <button class="mt-2 btn btn-dark " style="width:150px; margin-left: 35%;" type="submit">Submit</button>
-          </div><br><br>
+          </div>
         
       </form>
   </div>
@@ -35,6 +35,16 @@
 </body>
 </html>
 
+<script>
+  setTimeout(()=>{
+    document.getElementById("notification").remove()
+  },3000)
+</script>
+<script src="vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="vendor/simplebar/dist/simplebar.min.js"></script>
+<script src="vendor/tiny-slider/dist/min/tiny-slider.js"></script>
+<script src="vendor/smooth-scroll/dist/smooth-scroll.polyfills.min.js"></script>
+<script src="js/theme.min.js"></script>
 
 
       

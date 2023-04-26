@@ -3,7 +3,7 @@
             
          <section class="col-lg-8">
             <!-- Address  adding page form-->
-            <form  method="post" action="/editaddress?id=<%=addressDatas._id %>" >
+            <form  method="post" action="/editaddress?id=<%=addressDatas._id %>" class="needs-validation row g-4" novalidate>
                 <div class=" rounded-3 p-4 mb-5">
                 </div>
                 
@@ -58,4 +58,10 @@
         </div>
     </div>
 </div>
+<script src="vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="vendor/simplebar/dist/simplebar.min.js"></script>
+<script src="vendor/tiny-slider/dist/min/tiny-slider.js"></script>
+<script src="vendor/smooth-scroll/dist/smooth-scroll.polyfills.min.js"></script>
+<script src="js/theme.min.js"></script>
+
 <%-include("../user/layouts/footer.ejs")%>

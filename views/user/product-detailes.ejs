@@ -93,7 +93,7 @@
                     
                   <h5 class="mb-2">Leave a review</h5>
                     
-                      <form method="post" action="/product-review">
+                      <form method="post" action="/product-review" class="needs-validation row g-4" novalidate>
                           <div class="form-group">
                               <label for="message">Your Review *</label>
                               <textarea id="message" cols="30" rows="3" class="form-control" name="productReview"></textarea>
@@ -112,7 +112,7 @@
                     <a class="btn btn-secondary btn-sm d-block w-45 mb-2" onclick="addCart('<%=productDatas._id %>')" type="button"><i class="ci-heart fs-sm me-1"></i>Add to Wishlist</a>
 
                   </div>
-                  <a class="btn btn-success btn-sm d-block w-50 " type="button" href="/singlecheckReview?id=<%=productDatas._id%>"><i class=" ci-arrow-right fs-lg me-2"></i>Buy Now</a>
+                  <a class="btn btn-success btn-sm d-block w-50 " type="button" href="/singleCheckout?id=<%=productDatas._id%>"><i class=" ci-arrow-right fs-lg me-2"></i>Buy Now</a>
 
                 </div>
               </div>
@@ -232,6 +232,7 @@
     }
   }
 </script>
+
   <!-- Vendor scrits: js libraries and plugins-->
   <script src="vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
   <script src="vendor/simplebar/dist/simplebar.min.js"></script>

@@ -73,6 +73,22 @@ const getDashboard = async (req, res) => {
             const Canceled = await Order.find({status:"cancel"}).count()
             const returnProcessing = await Order.find({status:"Return processing"}).count()
             const Returned = await Order.find({status:"returned"}).count()
+            if(Delivered.length!=0){
+                const revenue = await Order.aggregate([{
+                    $match:{
+                        status:"Delivered"
+                    }},
+                      {$group:{
+                        _id:null,
+                        subtotal:{$sum:"$totalprice"}
+                    }
+                }])
+            console.log(revenue,"revenue");
+            res.render("dashboard", { adminSession ,totalDelivery,totalOrder,totalUsers,
+                category,products,sale,Ordered,Delivered,Canceled,
+                returnProcessing,Returned,OrderData,revenue})
+
+            }
          
             res.render("dashboard", { adminSession ,totalDelivery,totalOrder,totalUsers,
                                       category,products,sale,Ordered,Delivered,Canceled,
@@ -158,7 +174,6 @@ const insertCategory = async (req, res) => {
             description: req.body.description,
 
         })
-
         const checkCategory = await Category.findOne({ categoryname: req.body.categoryname })
         if (checkCategory) {
             res.render("add-category", { errormessage: "Sorry, this category is already exists !" })
@@ -236,7 +251,6 @@ const getProduct = async (req, res) => {
 const getAddproduct = async (req, res) => {
     try {
         const categoryDatas = await Category.find()
-        console.log(categoryDatas);
         res.render("add-product", { categoryDatas })
     } catch (error) {
         console.log(error.message);
@@ -360,7 +374,7 @@ const doEditProduct = async (req, res) => {
             product: product,
             description: description,
             // image: image,
-            categoryname: category.categoryname,
+            category: categoryname,
             price: price,
             status: status,
             stock: stock
@@ -640,14 +654,16 @@ const getSales = async(req,res)=>{
 // to get sales report filtered by date 
 const salesFilter = async (req, res) => {
     try {
-        const start = req.body.start
-        const end = req.body.end
-        const orderData = await Order.find({ status: "Delivered", date: { $gte: start, $lte: end } }).sort({ date:-1 })
-        res.json({ orderData })
+        const start = new Date(req.body.start);
+        const end = new Date(req.body.end);
+        end.setDate(end.getDate() + 1); // add one day to end date to include orders on the end date
+        const orderData = await Order.find({ status: "Delivered", date: { $gte: start, $lt: end } }).sort({ date: -1 });
+        res.json({ orderData });
     } catch (error) {
-        console.log(error.messege);
+        console.log(error.message);
     }
 }
+
 
 
 //to export the sales report as excel
@@ -667,9 +683,10 @@ const exportSales = async (req, res) => {
 
         ];
 
-        const start = req.body.start;
-        const end = req.body.end;
-        const orderData = await Order.find({ status: "Delivered", date: { $gte: start, $lte: end } }).sort({ date:-1 })
+        const start = new Date(req.body.start);
+        const end = new Date(req.body.end);
+        end.setDate(end.getDate() + 1);
+        const orderData = await Order.find({ status: "Delivered", date: { $gte: start, $lt: end } }).sort({ date:-1 })
 
         for (let i = 0; i < orderData.length; i++) {
             worksheet.addRow({

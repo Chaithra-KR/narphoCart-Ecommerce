@@ -8,10 +8,10 @@
         <div class="container-fluid d-flex justify-content-end">
             <button  type="button" class="btn btn-success" data-toggle="modal" data-target="#exampleModalCenter">
                 New image
-              </button>
+            </button>
             <!-- <a  href="/admin/updateProductImage" class="btn btn-success mb-3 btn-sm d-flex align-items-center justify-content-center" style="width: 70px;height: 30px; font-size: 10px;">Add Image</a> -->
         </div>
-        <form action="/admin/editImage?id=<%=productDatas._id%>" method="post" enctype="multipart/form-data" style="margin-left: 50px; margin-right: 50px;" >
+        <form action="/admin/editImage?id=<%=productDatas._id%>" method="post" enctype="multipart/form-data" style="margin-left: 50px; margin-right: 50px;" class="needs-validation row g-4" novalidate>
 
             <div class="mb-3">
 
@@ -54,7 +54,6 @@
     </div>
 
 </div>
-
 
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>

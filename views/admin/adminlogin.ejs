@@ -15,7 +15,7 @@
 <div class="container-fluid d-flex justify-content-center align-items-center vw-100 vh-100">
     <div class="col-md-6 pt-4 mt-3 mt-md-0 border border-2 ">
         <h2 class="h4 mb-3 d-flex justify-content-center">NarphoCart</h2>
-        <form action="/admin/adminlogin" method="post" style="margin-left: 50px; margin-right: 50px;" class="needs-validation tab-pane fade show active" autocomplete="on" id="signin-tab">
+        <form action="/admin/adminlogin" method="post" style="margin-left: 50px; margin-right: 50px;">
           <div class="mb-3">
             <label class="form-label" for="si-email">Email address</label>
             <input class="form-control" type="email" name="email" id="si-email"  required>
@@ -28,14 +28,14 @@
           <div class="d-flex justify-content-center" style="margin-bottom: 30px;">
             <button class="btn btn-success" type="submit" style="width:150px">Login</button>
           </div>
-
+          <div id="notification">
           <% if(typeof message!="undefined"){
             %>
             <p style="color:rgb(192, 35, 35)"><%= message %></p>
             <%
           }
           %>
-
+          </div>
         </form>
     </div>
     </div>
@@ -43,4 +43,9 @@
   
   </body>
   </html>
+  <script>
+  setTimeout(()=>{
+    document.getElementById("notification").remove()
+  },3000)
+</script>
   

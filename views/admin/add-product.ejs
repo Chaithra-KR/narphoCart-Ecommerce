@@ -18,7 +18,7 @@
 
             <div class="mb-3">
                 <label class="form-label">Category</label>
-                <select name="categoryName" >
+                <select name="categoryName" required>
                     <%categoryDatas.forEach(function(categoryDatas,i){%>
                        <option value="<%=categoryDatas._id%>"><%=categoryDatas.categoryname%></option>
                     <%}); %>
@@ -33,9 +33,9 @@
 
             <div class="mb-3">
                 <label class="form-label">stock</label>
-                <input type="text" name="stock" min="0" max="100">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <input type="text" name="stock" min="0" max="100" required>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 <label>Status</label>
-                <select name="status" id="stockstatus">
+                <select name="status" id="stockstatus" required>
                 <option value="Available">active </option>
                 <option value="Out of stock">expired </option>
                 </select>
@@ -97,5 +97,4 @@
         document.getElementById("notify").remove()
     },3000)
 </script>
-
 

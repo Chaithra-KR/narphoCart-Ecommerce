@@ -171,6 +171,16 @@
 
 <script>
 
+
+  //script for sorting
+
+  function sort(){
+    $.ajax({
+      url:'/sort'
+    })
+  }
+
+
   // script for wishlist
 
   function addToWishlist(proId, button){
@@ -293,8 +303,7 @@ searchInput.addEventListener('input', (event) => {
 
 
 
-    function category(id,page){
-      console.log('------------------entering------');
+  function category(id,page){
   $.ajax({
     url:"/category",
     method:'post',

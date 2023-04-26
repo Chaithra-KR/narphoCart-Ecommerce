@@ -26,6 +26,7 @@ userRoute.get("/search",userController.search)
 userRoute.post("/priceOrder",userController.priceOrder)
 
 userRoute.get("/shop",userController.shop)
+userRoute.get("/privacy-notice",userController.privacynotice)
 
 userRoute.get("/otp",userController.getotp)
 userRoute.post("/otp", userController.verifyOtp)
@@ -40,7 +41,7 @@ userRoute.post("/addwish/:id",authentic.isLogin,wishlistController.addToWishlist
 userRoute.post("/dropWish/:id",authentic.isLogin,wishlistController.deleteWishdata)
 
 userRoute.get("/userprofile",authentic.isLogin,userController.getProfile)
-userRoute.get("/UpdateUserprofile",authentic.isLogin,userController.UpdateUserprofile)
+userRoute.post("/userprofile",authentic.isLogin,userController.UpdateUserprofile)
 
 
 userRoute.get("/address",authentic.isLogin,userController.getAddress)
@@ -48,7 +49,7 @@ userRoute.get("/createaddress",authentic.isLogin,userController.createAddress)
 userRoute.post("/address",authentic.isLogin,userController.putAddress)
 userRoute.post("/dropAddress/:id",authentic.isLogin,userController.deleteAddress)
 userRoute.get("/editaddress",authentic.isLogin,userController.getEditaddress)
-userRoute.post("/editaddress",authentic.isLogin,userController.doAddress)
+userRoute.post("/editaddress",authentic.isLogin,userController.doEditAddress)
 
 
 
@@ -59,7 +60,8 @@ userRoute.post("/Itemdelete/:id",authentic.isLogin,cartController.deleteCart)
 userRoute.post("/singleTotalprice",authentic.isLogin,userController.singlequantityInc)
 
 
-userRoute.get("/singlecheckReview",authentic.isLogin,checkController.getSingleReview)
+userRoute.get("/singleCheckout",authentic.isLogin,checkController.getSingleCheckout)
+userRoute.post("/singleCheckout",authentic.isLogin,checkController.singleCheckout)
 userRoute.get("/checkOut",authentic.isLogin,checkController.getCheckout)
 userRoute.post("/checkOut",authentic.isLogin,checkController.placeOrder)
 userRoute.post("/Addressdelete/:id",authentic.isLogin,checkController.deleteAddress)

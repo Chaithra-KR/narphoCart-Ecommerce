@@ -1,5 +1,6 @@
 <%-include("../admin/layouts/header.ejs") %>
 
+
   <section class="col-lg-8 pt-lg-4 pb-4 mb-3">
     <div class="pt-2 px-4 ps-lg-0 pe-xl-5">
       <div class="container-fluid" style="display: flex; justify-content: space-between;">
@@ -32,6 +33,7 @@
                     <p><small><%=orderDatas.address.city +',' +orderDatas.address.distrit+','+orderDatas.address.pin%>&nbsp;(pin)</small></p>
                   </td>
                   <td>
+                    
                     
                     <%if(orderDatas.status=="ordered"){%>
                         <small class="badge bg-info m-0"><%=orderDatas.status %></small>

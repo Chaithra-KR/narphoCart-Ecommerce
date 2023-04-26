@@ -46,14 +46,8 @@ const product = mongoose.Schema({
         userReview:{
             type:String
         }
-    }],
-    singlequantity:{
-        type:Number,
-        default:0
-    },
-    singleTotalprice:{
-        type:Number
-    }
+    }]
+  
     
 })
 

@@ -9,58 +9,84 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
 </head>
 <body>
+  <style>
+    .card-registration .select-input.form-control[readonly]:not([disabled]) {
+font-size: 1rem;
+line-height: 2.15;
+padding-left: .75em;
+padding-right: .75em;
+}
+.card-registration .select-arrow {
+top: 13px;
+}
+  </style>
+  <section class="h-100">
+    <div class="container py-5 ">
+      <div class="row d-flex justify-content-center align-items-center ">
+        <div class="col-xl-5">
+          <div class="card card-registration my-4 bg-light">
+            <div class="row g-0">
+              
+              <form method="post" action="/register"  class="needs-validation row g-4" novalidate >
+                
+                <div class="card-body p-md-4 text-black">
+                  <h3 class="mb-5 text-uppercase ms-5 ">&nbsp;&nbsp; Registration form</h3>
   
+                    <div class="col-md-12 mb-4">
+                      <div class="form-outline">
+                        <input type="text" placeholder="Full Name" name="name" class="form-control" required/>
+                        <div class="invalid-feedback">Please enter your Your name!</div>
+                      </div>
+                    </div>
+                      
+                    <div class="col-md-8 mb-4">
+                      <input type="date" id="DOB" name="dob" class="form-control " required />
+                    </div>
 
+                    <div class="form-control col-md-12 mb-4">
+                      <input type="tel" name="mobile" pattern="[0-9]{10}"  placeholder="Phone number" class="form-control" required/>
+                      <div class="invalid-feedback">Please enter your valid Phone number</div>
+                    </div>
 
-  <div class="container-fluid d-flex justify-content-center align-items-center  vh-100" >
-    <div class="col-md-6 pt-4 mt-3 mt-md-0 border border-2 ">
-      <h2 class="h4 mb-3 d-flex justify-content-center">Registration page</h2><br>
-      <form method="post" action="/register">
-        <div class="row gx-4 gy-3 border-2" style="margin-left: 20px;margin-right: 20px;"  >
-          <div class="col-sm-6">
-            <label class="form-label" for="name"> Name</label>
-            <input class="form-control" name="name" type="text" required id="reg-fn">
-            <div class="invalid-feedback">Please enter your first name!</div>
-          </div>
+                    <div class="form-control col-md-12 mb-4">
+                      <input type="email" name="email" placeholder="Email address " class="form-control" required/>
+                      <div class="invalid-feedback">Please enter your Valid Email</div>
+                    </div>
 
-          <div class="col-sm-6">
-            <label class="form-label" for="email">E-mail Address</label>
-            <input class="form-control" name="email" type="email" required id="reg-email">
-            <div class="invalid-feedback">Please enter valid email address!</div>
-          </div>
+                    <div class="form-control col-md-12 mb-4">
+                      <input type="password" name="password" placeholder="Password" class="form-control" required/>
+                      <div class="invalid-feedback">Please enter your Password</div>
+                    </div>
 
-          <div class="col-sm-6">
-            <label class="form-label" for="mobile">Phone Number</label>
-            <input class="form-control" name="mobile" type="text" required id="reg-phone">
-            <div class="invalid-feedback">Please enter your phone number!</div>
-          </div>
-
-          <div class="col-sm-6">
-            <label class="form-label" for="password">Password</label>
-            <input class="form-control" name="password" type="password" required id="reg-password">
-            <div class="invalid-feedback">Please enter password!</div>
-          </div><br><br>
-
-          <div class="col-12 d-flex " style="justify-content: flex-end; margin-bottom: 20px;">
-            <a style="text-decoration: none;" href="/login">Back</a>
-            <button class="btn btn-danger " style="width: 100px;margin-left: 28rem;" type="reset">Reset</button>
-            <button class="btn btn-success" style="width: 100px;margin-left: 12px;" type="submit">Submit</button>
-          </div>
-
-          <div id="notification">
-          <% if(typeof message !=="undefined" ){ 
-            %>
-            <p style="color:green"><%=message%></p>
-            <% }else if(typeof errorMessage !=="undefined"){ %>
-              <p style="color:rgb(240, 52, 27)"><%=errorMessage%></p>
-            <% } %>
+                  <div id="notification">
+                    <% if(typeof message !=="undefined" ){ 
+                      %>
+                      <p style="color:green"><%=message%></p>
+                      <% }else if(typeof errorMessage !=="undefined"){ %>
+                        <p style="color:rgb(240, 52, 27)"><%=errorMessage%></p>
+                      <% } %>
+                  </div>
+                  <a type="button" style="text-decoration: none;" href="/login" class="btn btn-secondary ">Back</a>
+                    <div class="d-flex justify-content-end pt-3">
+                    <button type="reset" class="btn btn-danger ms-2">Reset all</button>
+                    <button type="submit" class="btn btn-success  ms-2">Submit form</button>
+                    </div><br>
+  
+                    <div>
+                     <small>By creating an account, you agree to narphoCart's<a style="font-size: small;margin-left: 10px;" href="https://www.indiafilings.com/website-terms-conditions-template#:~:text=The%20website%20terms%20and%20conditions,jurisdiction%20and%20other%20legal%20information.">Conditions of Use</a> and<a style="font-size: small;margin-left: 10px;" href="/privacy-notice"> Privacy Notice.</a></small> 
+                    </div>
+                </div>
+            </form>
+              </div>
+            </div>
           </div>
         </div>
-      </form>
+      </div>
     </div>
-  </div>
-  </div>
-  </div>
+  </section>
+
+  
+
 
   <script>
     setTimeout(()=>{
@@ -68,5 +94,12 @@
     },3000)
   </script>
 
+    <script src="vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="vendor/simplebar/dist/simplebar.min.js"></script>
+    <script src="vendor/tiny-slider/dist/min/tiny-slider.js"></script>
+    <script src="vendor/smooth-scroll/dist/smooth-scroll.polyfills.min.js"></script>
+    <script src="js/theme.min.js"></script>
+
+    
 </body>
 </html>

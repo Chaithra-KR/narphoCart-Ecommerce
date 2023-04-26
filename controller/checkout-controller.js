@@ -20,22 +20,88 @@ const getCheckout = async(req,res)=>{
     }
 }
 
-//get checkout review of single project
-const getSingleReview = async(req,res)=>{
+//get checkout  of single product
+const getSingleCheckout = async(req,res)=>{
     try {
         const id = req.session.userid
         const productId = req.query.id
         const userSession = id
-        const productDatas = await Product.findById({_id:productId})
+        const productDatas = await Product.findById({_id:productId}).populate('category')
+        const productData = await Product.find({_id:productId}).populate('category')
         const addressDatas = await User.findById({_id:id})
         .populate('address')
-        res.render("singlecheckout-review",{userSession,productDatas,addressDatas})
+        res.render("singlecheckout",{userSession,productDatas,productData,addressDatas,productId})
     } catch (error) {
         console.log(error);
         res.render('500')
     }
 }
 
+//post checkout of single product
+const singleCheckout = async(req,res)=>{
+    try {
+        const userId = req.session.userid
+        const selectedProduct = req.body.idd;
+        const productDatas = await User.findOne({_id:userId})
+        const productData = await Product.findById({_id:selectedProduct}).populate('category')
+        const Total =productData.price
+        const quantity = productDatas.singlequantity
+
+        const customerName=req.body.deliveryname;
+        const customerPhone=req.body.phone;
+        const customerHouse=req.body.houseName;
+        const customerPin=req.body.pin;
+        const customerCity=req.body.city;
+        const customerDistrict=req.body.distrit;
+      
+
+        const address = {
+            name: customerName,
+            phone: customerPhone,
+            houseName: customerHouse,
+            city: customerCity,
+            pin:customerPin,
+            distrit: customerDistrict
+          }
+       
+          const products={
+  
+            product:productData.product,
+            quantity:quantity,
+            price:Total, 
+            image:productData.image[0],   
+        }
+
+
+          let status = req.body.payment==='COD'?'pending':'placed'
+
+    const order = new Order({
+      user: userId,
+      products:products,
+      totalprice: Total,
+      address: address,
+      paymentMethod:req.body.payment,
+      paymentStatus:status,
+      status:'ordered'
+
+    })
+    const orderData = await order.save()
+
+
+if (req.body.payment === 'COD')  {
+      
+  
+     let COD =req.body.payment
+      res.json({success:true,COD})
+
+
+
+    } 
+    } catch (error) {
+        console.log(error);
+        res.render('500')
+    }
+}
 const placeOrder = async(req,res)=>{
     try {
         const userId = req.session.userid
@@ -391,7 +457,8 @@ const deleteAddress = async (req, res) => {
 module.exports ={
     getCheckout,
     addAddress,
-    getSingleReview,
+    getSingleCheckout,
+    singleCheckout,
     placeOrder,
     setAddress,
     getSuccess,

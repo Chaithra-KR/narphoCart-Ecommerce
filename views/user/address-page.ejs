@@ -6,6 +6,8 @@
                 <!-- address page --> 
                 <div class="bg-light rounded-3 p-4 ">
                     <center><h5 style="color: rgb(120, 20, 11);">Address</h5></center><br>
+                    <% if (userDatas.address.length!=0) {%>
+              
                  <div class="d-flex justify-content-end"> <a type="button" href="/createaddress" class="btn btn-success btn-sm d-flex align-items-center justify-content-center"
                      style="width: 70px;height: 25px; font-size: 10px;">Add Address </a> </div>  
                 <table class="table table-hover mb-10">
@@ -36,9 +38,16 @@
                     <% }) %>
                     </tbody>
                 </table>
+                          
+                <%}else{ %>
+                    <div class="d-flex justify-content-center align-items-center mt-10">
+                    <a type="button" href="/createaddress" class="btn btn-success   " title="click here to add address">Add Address</a>
+                    </div>
+                    <% } %>
             </div>
                 </section>
             </div>
         </div>  
 </div>
+
 <%-include("../user/layouts/footer.ejs")%>

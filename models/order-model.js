@@ -55,8 +55,11 @@ const order=new mongoose.Schema({
         totalprice:{
             type:Number,
             default:0
-        }
-  
+        },
+  subtotal:{
+    type:Number,
+    default:0
+  }
     
 })
 module.exports = mongoose.model("Order",order)

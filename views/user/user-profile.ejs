@@ -4,26 +4,30 @@
                 <!-- Content  -->
                 <section class="col-lg-8">
                     <!-- Profile form-->
-                    <form method="post" action="/userProfile">
+                    <form method="post" action="/userProfile" class="needs-validation row g-4" novalidate>
                         <div class="bg-light rounded-3 p-4 ">
                             <center><h5 style="color: rgb(120, 20, 11);">Profile</h5></center><br>
                         <div class="row gx-4 gy-3">
                             <div class="col-sm-6">
-                                <label class="form-label" for="account-fn">First Name</label>
+                                <label class="form-label" for="account-fn">Name</label>
                                 <input class="form-control" type="text" id="account-fn" name="name" value="<%=userDatas.name %>" required>
                             </div>
                             <div class="col-sm-6">
                                 <label class="form-label" for="account-email">Email Address</label>
                                 <input class="form-control" type="email" id="account-email" name="email" value="<%=userDatas.email%>" disabled>
-                            </div>
+                            </div> 
+                            
                             <div class="col-sm-6">
                                 <label class="form-label" for="account-phone">Phone Number</label>
-                                <input class="form-control" type="text" id="account-phone" name="mobile" value="<%=userDatas.mobile %>" required>
+                                <input class="form-control" type="tel" pattern="[0-9]{10}" id="account-phone" name="mobile" value="<%=userDatas.mobile %>" required>
+                                <div class="invalid-feedback">Please enter your valid Phone number</div>
+
                             </div>
+                           
                             <div class="col-12">
                                 <hr class="mt-2 mb-3">
                                 <div class="d-flex flex-wrap justify-content-end">
-                                    <a href="/UpdateUserprofile?id=<%=userDatas._id%>" class="btn btn-primary mt-3 mt-sm-0" type="button">Update profile</a>
+                                    <button class="btn btn-primary mt-3 mt-sm-0" type="submit">Update profile</button>
                                 </div>
                             </div>
                         </div>
@@ -34,4 +38,10 @@
         </div>
         </main>
 
+        <script src="vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="vendor/simplebar/dist/simplebar.min.js"></script>
+        <script src="vendor/tiny-slider/dist/min/tiny-slider.js"></script>
+        <script src="vendor/smooth-scroll/dist/smooth-scroll.polyfills.min.js"></script>
+        <script src="js/theme.min.js"></script>
+    
         <%-include("../user/layouts/footer.ejs")%>

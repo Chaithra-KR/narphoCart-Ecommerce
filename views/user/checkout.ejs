@@ -86,7 +86,7 @@
           
                 <!-- Add New Address-->
           
-                      <form class="needs-validation modal fade" action="/insertAddress" method="post" id="add-address" tabindex="-1" novalidate>
+                      <form class="needs-validation modal fade" action="/insertAddress" method="post" id="add-address" tabindex="-1" class="needs-validation row g-4"  novalidate>
                         <div class="modal-dialog modal-lg">
                           <div class="modal-content">
                             <div class="modal-header">
@@ -154,7 +154,7 @@
 
           
                       
-                      <form  method="post" id="submitForm">
+                      <form  method="post" id="submitForm" class="needs-validation row g-4" novalidate>
                               <h6 class="mb-3 py-3 border-bottom"><i class="ci-location "></i>Delivery Address</h6>
                             
                             
@@ -467,6 +467,11 @@ function razorPayment(order){
 
 
   </script>
+   <script src="vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+   <script src="vendor/simplebar/dist/simplebar.min.js"></script>
+   <script src="vendor/tiny-slider/dist/min/tiny-slider.js"></script>
+   <script src="vendor/smooth-scroll/dist/smooth-scroll.polyfills.min.js"></script>
+   <script src="js/theme.min.js"></script>
 
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
   <%- include('../user/layouts/footer.ejs') %>

@@ -28,6 +28,16 @@
         <p class="fs-ms text-muted mb-0">Total products : <b><%=products %></b></p>
       </div>
     </div>
+    <% if (Delivered!=0) {%>
+      <div class="col-md-3 col-sm-6 px-2 mb-4">
+        <div class="bg-secondary h-100 rounded-3 p-4 text-center">
+          <h3 class="fs-sm text-muted">Total Revenue</h3>
+          <p class="h2 mb-2">Rs.<small><%=revenue[0].subtotal %></small></p>
+          <p class="fs-ms text-muted mb-0">Based on sales report</p>
+        </div>
+      </div>
+    <%} %>
+    
     <div class="col-md-3 col-sm-6 px-2 mb-4">
       <div class="bg-secondary h-100 rounded-3 p-4 text-center">
         <h3 class="fs-sm text-muted">Payment Methods</h3>
@@ -37,6 +47,7 @@
 
       </div>
     </div>
+    
   </div>
 
   <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>

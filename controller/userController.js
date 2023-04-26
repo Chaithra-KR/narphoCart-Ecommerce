@@ -36,7 +36,6 @@ otp = parseInt(otp);
 
 //registration page started
 const doRegister = async (req, res) => {
-    console.log("register page existed");
     try {
         if (req.session.userid) {
             res.redirect("/")
@@ -48,7 +47,15 @@ const doRegister = async (req, res) => {
     }
 }
 
-
+//to get privacy notice page
+const privacynotice = async(req,res)=>{
+    try {
+        res.render('privacy-notice')
+    } catch (error) {
+        console.log(error);
+        res.render('500')  
+    }
+}
 //otp page started
 
 const getotp = async (req, res) => {
@@ -71,12 +78,11 @@ const otpValidation = async (req, res) => {
             req.session.name = req.body.name,
             req.session.email = req.body.email,
             req.session.mobile = req.body.mobile,
+            req.session.dob = req.body.dob
             req.session.password = req.body.password
 
-            
-
+        
         const checkUser = await User.findOne({ email: req.session.email })
-        console.log(checkUser,"lllllllll");
         if (!checkUser) {
            
             console.log("Email is valid. There where no another accounts");
@@ -86,7 +92,7 @@ const otpValidation = async (req, res) => {
                 
                 to: req.body.email,
                 subject: "OTP for registration",
-                html: "<h6> OTP for account verification is" + otp + "</h6>",
+                html: "<h4> OTP for account verification is : " + otp + "</h4>",
             }
 
            
@@ -127,6 +133,7 @@ const verifyOtp = async (req, res) => {
                 name: req.session.name,
                 email: req.session.email,
                 mobile: req.session.mobile,
+                dob: req.session.dob,
                 password: securedPassword
             })  
 
@@ -301,8 +308,8 @@ const verifyLogin = async (req, res) => {
     try {
         const email = req.body.email;
         const password = req.body.password;
-
         const userData = await User.findOne({ email: email });
+        console.log(email,"email");
         if (userData) {
             const passwordMatch = await bcrypt.compare(password, userData.password)
             if (passwordMatch) {
@@ -322,9 +329,10 @@ const verifyLogin = async (req, res) => {
                 console.log("email or password is incorrect");
                 res.redirect("/login")
             }
-        } else {
+        }
+         else {
             req.session.error = 'email or password is incorrect'
-            console.log("email or password is incorrect");
+            console.log("email or password is incorrect jjjjj");
             res.redirect("/login")
         }
 
@@ -397,14 +405,29 @@ const getProfile = async(req,res)=>{
     }
 }
 
-//to update user profile
+
+//to post update user profile
 const UpdateUserprofile = async(req,res)=>{
     try {
+        if(req.session.userid){
+            const userSession = req.session.userid
+            const name = req.body.name
+            const mobile = req.body.mobile
+            const editProfile = await User.updateOne({_id:userSession},{$set:{
+                name:name ,
+                mobile:mobile,
+              
+            }})
+            res.redirect("/userprofile")
+        }else{
+            res.redirect('/login')
+        }
         
     } catch (error) {
         console.log(error);
     }
 }
+
 
 //get address page
 const getAddress = async(req,res)=>{
@@ -480,9 +503,9 @@ const getEditaddress = async(req,res)=>{
         const id = req.query.id;
         const userSession = req.session.userid
         const userDatas = await User.findOne({_id:userSession})
-       const addressDatas = userDatas.address.find((values)=>{
-        return values._id==id;
-       })
+        const addressDatas = userDatas.address.find((values)=>{
+            return values._id==id;
+        })
         res.render("edit-address",{addressDatas,userSession,userDatas})
     } catch (error) {
         console.log(error);
@@ -490,18 +513,17 @@ const getEditaddress = async(req,res)=>{
 }
 
 //to edit address
-const doAddress = async(req,res)=>{
+const doEditAddress = async(req,res)=>{
     try {
-        
-        const id = req.query.id
-        const addressData = await User.updateOne({_id:id},{$set:{ 
-            name:req.body.deliveryname,
-            phone:req.body.phone,
-            houseName : req.body.houseName,
-            city : req.body.city,
-            pin : req.body.pin,
-            distrit : req.body.distrit
-        }})
+        const id = req.query.id;
+        const user = req.session.userid;
+        console.log(user);
+        console.log(id);
+        const addressData = await User.find({_id:user,"address._id":id},{address:1})
+        console.log(addressData,".....");
+        addressData.forEach(element => {
+            console.log(element.address);
+        });
         res.redirect("/address")
     } catch (error) {
         console.log(error);
@@ -695,8 +717,9 @@ module.exports = {
     search,
     priceOrder,
     getEditaddress,
-    doAddress,
+    doEditAddress,
     productReview,
-    updateProductReview
+    updateProductReview,
+    privacynotice
 
 }
