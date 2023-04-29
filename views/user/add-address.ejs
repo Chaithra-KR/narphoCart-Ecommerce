@@ -10,23 +10,24 @@
                 <p>All Kerala delivery only/-</p>
                         <div class="col-sm-6">
                             <label class="form-label" for="account-fn">Name</label>
-                            <input class="form-control" type="text" id="account-fn" name="deliveryname" required>
+                            <input class="form-control" type="text"  name="deliveryname" required>
                         </div>
                         <div class="col-sm-6">
                             <label class="form-label" for="account-phone">Phone Number</label>
-                            <input class="form-control" type="number" id="account-phone" name="phone"  required>
+                            <input class="form-control" type="tel" pattern="[0-9]{10}" id="account-phone" name="phone" required>
+                            <div class="invalid-feedback">Please enter your valid Phone number</div>
                         </div>
                         <div class="col-sm-6">
                             <label class="form-label" for="account-fn">House name/Building name</label>
-                            <input class="form-control" type="text" id="account-fn" name="houseName"  required>
+                            <input class="form-control" type="text"  name="houseName"  required>
                         </div>
                         <div class="col-sm-6">
                             <label class="form-label" for="account-phone">City</label>
-                            <input class="form-control" type="text" id="account-phone" name="city" required>
+                            <input class="form-control" type="text" name="city" required>
                         </div>
                         <div class="col-sm-6">
                             <label class="form-label" for="account-phone">Pin no:</label>
-                            <input class="form-control" type="number" id="account-phone" name="pin"  required>
+                            <input class="form-control" type="number" name="pin"  required>
                         </div>
                         <div class="col-sm-6">
                             <label class="form-label" for="account-phone">Distrit</label>

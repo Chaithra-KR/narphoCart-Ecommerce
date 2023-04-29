@@ -6,7 +6,6 @@ const isLogin = async (req, res, next) => {
         if (req.session.userid) {
             const block = user.access;
             if(block==true){
-                
             }else{
                 res.redirect("/login")
             }

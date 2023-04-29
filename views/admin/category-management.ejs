@@ -2,12 +2,12 @@
 
   <section class="col-lg-8 pt-lg-4 pb-4 mb-3">
     <div class="pt-2 px-4 ps-lg-0 pe-xl-5">
-      <div class="container-fluid" style="display: flex; justify-content: space-between;">
-        <p class="h2 pt-2 pb-4 mb-0  text-center text-sm-start border-bottom">Category management</p>
-        <a style="text-decoration: none; padding-top: 1rem; " class="btn btn-success mb-3" href="/admin/addcategory">Add
-          Category</a>
+      <div class="container-fluid " style="display: flex; justify-content: space-between;">
+        <p class="h2 pt-2 pb-4 mb-0  text-center text-sm-start ">Category management</p>
       </div>
-      <table class="table">
+      <table class="table table-responsive" id="category">
+        <div class="container-fluid d-flex justify-content-end"><a class="btn btn-success mb-3 btn-sm d-flex align-items-center justify-content-center" style="width: 80px;height: 30px; font-size: 10px;" href="/admin/addcategory">Add
+          Category</a></div>
         <% if(typeof message !=="undefined" ){ %>
           <p style="color: green;">
           <%=message %>
@@ -19,30 +19,33 @@
             <% } %>
               <thead>
                 <tr>
-                  <th scope="col">SI.no:</th>
-                  <th scope="col">Category name</th>
-                  <th scope="col">Description</th>
+                  <th scope="col" style="font-size:small;">SI.no:</th>
+                  <th scope="col" style="font-size:small;">Category name</th>
+                  <th scope="col" style="font-size:small;">Description</th>
+                  <th scope="col" style="font-size:small;">Settings</th>
+
                 </tr>
               </thead>
 
               <%categoryDatas.forEach((categoryDatas,i)=> {%>
 
                 <tr>
-                  <td>
+                  <td style="font-size:small;">
                     <%=i+1%>
                   </td>
-                  <td>
+                  <td style="font-size:small;">
                     <%=categoryDatas.categoryname %>
                   </td>
 
-                  <td>
+                  <td style="font-size:small;">
                     <%=categoryDatas.description %>
                   </td>
 
-                  <td><a style="text-decoration: none; color: rgb(235, 124, 12);" class="ci ci-edit mb-3"
-                      href="/admin/editcategory?id=<%=categoryDatas._id%>"></a>
-                    <a style="text-decoration: none; padding-top: 1rem; color: red;" class="ci ci-trash mb-3"
-                      href="/admin/dropCategory?id=<%=categoryDatas._id%>"></a>
+                  <td style="font-size:small;">
+                    <div class=" d-flex justify-content-between ">
+                      <a class="btn bg-faded-accent btn-icon" href="/admin/editcategory?id=<%=categoryDatas._id%>" data-bs-toggle="tooltip" title="Edit"><i class="ci-edit text-accent"></i></a>&nbsp;
+                      <a class="btn bg-faded-danger btn-icon"  href="/admin/dropCategory?id=<%=categoryDatas._id%>" data-bs-toggle="tooltip" title="Delete" ><i class="ci-trash text-danger"></i></a>
+                    </div>
                   </td>
                 </tr>
                 <%}); %>
@@ -51,3 +54,13 @@
       </table>
     </div>
   </section>
+  <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
+<script>
+  // table script
+  $(document).ready(function () {
+    $('#category').DataTable({
+      pagingType: 'full_numbers',
+    });
+  });
+</script>

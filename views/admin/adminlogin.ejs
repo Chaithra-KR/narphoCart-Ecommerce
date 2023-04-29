@@ -18,12 +18,17 @@
         <form action="/admin/adminlogin" method="post" style="margin-left: 50px; margin-right: 50px;">
           <div class="mb-3">
             <label class="form-label" for="si-email">Email address</label>
-            <input class="form-control" type="email" name="email" id="si-email"  required>
+            <input class="form-control" type="email" name="email" id="si-email" placeholder="Your email"  required>
             <div class="invalid-feedback">Please provide a valid email address.</div>
           </div>
           <div class="mb-3">
             <label class="form-label" for="si-password">Password</label>
-            <input class="form-control" type="password" name="password" id="si-password" required>
+            <div class="input-group">
+                <input class="form-control" name="password" type="password" id="si-password" placeholder="password" required>
+                <button class="btn btn-light border border-secondary " type="button" id="togglePassword">
+                    <i class="bi bi-eye-slash-fill"></i>
+                </button>
+            </div>
           </div>
           <div class="d-flex justify-content-center" style="margin-bottom: 30px;">
             <button class="btn btn-success" type="submit" style="width:150px">Login</button>
@@ -46,6 +51,22 @@
   <script>
   setTimeout(()=>{
     document.getElementById("notification").remove()
-  },3000)
+  },3000); 
+
+    const togglePassword = document.querySelector('#togglePassword');
+      const password = document.querySelector('[name="password"]');
+
+      togglePassword.addEventListener('click', function (e) {
+          // toggle the type attribute
+          const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+          password.setAttribute('type', type);
+          // toggle the eye icon
+          const eyeIcon = togglePassword.querySelector('i');
+          eyeIcon.classList.toggle('bi-eye-fill');
+          eyeIcon.classList.toggle('bi-eye-slash-fill');
+      });
 </script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
+   
   

@@ -108,11 +108,19 @@
                 </form>
 
                   <div class="d-flex justify-content-evenly align-items-center mb-4 w-150">
+                  <% if(userSession) {%>
                     <a class="btn btn-secondary btn-sm d-block w-45 mb-2" onclick="addCart('<%=productDatas._id %>')" type="button"><i class="ci-cart fs-sm me-1"></i>Add to Cart</a>
-                    <a class="btn btn-secondary btn-sm d-block w-45 mb-2" onclick="addCart('<%=productDatas._id %>')" type="button"><i class="ci-heart fs-sm me-1"></i>Add to Wishlist</a>
-
+                    <a class="btn btn-secondary btn-sm d-block w-45 mb-2" onclick="addWish('<%=productDatas._id %>')" type="button"><i class="ci-heart fs-sm me-1"></i>Add to Wishlist</a>
+                  <% }else{ %>
+                    <a class="btn btn-secondary btn-sm d-block w-45 mb-2" href="/login" type="button"><i class="ci-cart fs-sm me-1"></i>Add to Cart</a>
+                    <a class="btn btn-secondary btn-sm d-block w-45 mb-2" href="/login" type="button"><i class="ci-heart fs-sm me-1"></i>Add to Wishlist</a>
+                  <%}%>
                   </div>
-                  <a class="btn btn-success btn-sm d-block w-50 " type="button" href="/singleCheckout?id=<%=productDatas._id%>"><i class=" ci-arrow-right fs-lg me-2"></i>Buy Now</a>
+                  <% if(userSession) {%>
+                    <a class="btn btn-success btn-sm d-block w-50 " type="button" href="/singleCheckout?id=<%=productDatas._id%>"><i class=" ci-arrow-right fs-lg me-2"></i>Buy Now</a>
+                  <% }else{ %>
+                  <a class="btn btn-success btn-sm d-block w-50 " type="button" href="/login"><i class=" ci-arrow-right fs-lg me-2"></i>Buy Now</a>
+                  <%}%>
 
                 </div>
               </div>
@@ -123,13 +131,58 @@
     </div>
   </div>
 </div>
+
 <style>
   #expandable {
     display: none;
   }
 </style>
+
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+<script>
+        // script for wishlist
+    function addWish(id){
+      axios.get(`/addToWish?id=${id}`).then((response)=>{
+        if(response.data.status){
+          const Toast = Swal.mixin({
+          toast: true,
+          position: 'top-end',
+          showConfirmButton: false,
+          timer: 3000,
+          timerProgressBar: true,
+          didOpen: (toast) => {
+            toast.addEventListener('mouseenter', Swal.stopTimer)
+            toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
+          })
+        
+          Toast.fire({
+            icon: 'success',
+            title: 'Added to Wishlist'
+          })
+        }else{
+          const Toast = Swal.mixin({
+          toast: true,
+          position: 'top-end',
+          showConfirmButton: false,
+          timer: 4000,
+          timerProgressBar: true,
+          didOpen: (toast) => {
+          toast.addEventListener('mouseenter', Swal.stopTimer)
+          toast.addEventListener('mouseleave', Swal.resumeTimer)
+          }
+        })
+      
+        Toast.fire({
+          icon: 'error',
+          title: 'You already added this product'
+        }) 
+      }
+    })                    
+  }
+</script>
 
 <script>
   // script for add product to cart
@@ -175,6 +228,7 @@
 </script>
 
 <script>
+  //script for quantity change
   function quantityChange(userid,proId,count){
       $.ajax({
           url : '/singleqtychange',
@@ -198,6 +252,7 @@
 </script>
 
 <script>
+  //script for update review
     document.getElementById("updateReview").addEventListener('click',(e)=>{
         e.preventDefault()
         const review = document.getElementById('message').value
@@ -222,7 +277,9 @@
         })
     })
 </script>
+
 <script>
+  //script for view review button
   function expand() {
     var x = document.getElementById("expandable");
     if (x.style.display === "none") {
@@ -241,7 +298,6 @@
   <script src="vendor/drift-zoom/dist/Drift.min.js"></script>
   <script src="vendor/lightgallery.js/dist/js/lightgallery.min.html"></script>
   <script src="vendor/lg-video.js/dist/lg-video.min.html"></script>
-  <!-- Main theme script-->
   <script src="js/theme.min.js"></script>
 
 <%-include("../user/layouts/footer.ejs") %>

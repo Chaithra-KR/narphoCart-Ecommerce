@@ -19,9 +19,10 @@
           </div>
           <div class="offcanvas-body py-grid-gutter px-lg-grid-gutter">
             <h6><small> Sort by Price:</small></h6>
-              <select class="form-select " id="sorting" >
-                <option id="category_id" onclick="price('low','category_id')"  value="Low to high">Low to high</option>
-                <option id="category_id" value="High to low" onclick="price('high','category_id')">High to low</option>
+              <select class="form-select " id="sorting" onchange="toAjax()">
+                <option selected>price</option>
+                <option  id="large"  value="Low to high">Low to high</option>
+                <option  id="tiny" value="High to low">High to low</option>
               </select><br>
             <!-- Categories-->
             <div class="widget widget-categories mb-4 pb-4 border-bottom">
@@ -72,22 +73,6 @@
               </div>
             </div>
           </div>
-
-              <script>
-                const price = function (id,caid) {
-                  console.log('data is coming ------');
-                  $.ajax({
-                url:"/priceOrder",
-                  method:'post',
-                    data:{
-                      id:id,
-                      page:page
-                    },success:(response=>{})
-                            
-                })
-              }
-                
-                </script>
           
         </div>
         <div class="row mx-n2" id="hidden">
@@ -170,23 +155,10 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 
 <script>
-
-
-  //script for sorting
-
-  function sort(){
-    $.ajax({
-      url:'/sort'
-    })
-  }
-
-
-  // script for wishlist
-
+ 
+  //  script for wishlist
   function addToWishlist(proId, button){
-    
     $.ajax({
-
         url : '/addwish/'+proId,
         method : 'post',
         success : (response) => {
@@ -199,75 +171,169 @@
             }
 
         }
-
   })
 
     }
 
-let searchValue;
-const searchInput = document.querySelector('#searchField')
-searchInput.addEventListener('input', (event) => {
-  event.preventDefault()
-  const search = event.target.value
-  searchValue = search
-  toAjax()
-})
 
-        function toAjax(){
-          $.ajax({
-              url:"/search",
-              method:'get',
-              data:{
-                search: searchValue,
-                isRender: "true"
-              },success:(response=>{
-                console.log(response.product)
-                let products = document.getElementById('products-products')
+  //  script for search
+  let searchValue;
+  const searchInput = document.querySelector('#searchField')
+           
+  searchInput.addEventListener('input', (event) => {
+    event.preventDefault()
+    const search = event.target.value
+    searchValue = search
+    toAjax()
+  })
+
+  function toAjax(){
+    const sortItems = document.getElementById('sorting');
+    const selectedSort = sortItems.value;
+    $.ajax({
+      url:"/search",
+      method:'get',
+      data:{
+            search: searchValue,
+            isRender: "true",
+            sort: selectedSort
+          },success:(response=>{
+            console.log(response.product)
+              let products = document.getElementById('products-products')
               $('#hidden').hide()
               if (response.wishId) {
             
                 products.innerHTML = null;
                 response.product.forEach(element => {
-            products.innerHTML += `
-              <div class="col-md-4 col-sm-6 px-2 mb-4">
-                <div class="card product-card">
-                  ${JSON.stringify(response.wishId).includes(element._id) ? 
-                  `<button class="btn-wishlist btn-sm" onclick="addToWishlist('${element._id}', this)">
-                    <i class="ci-heart-filled text-danger"></i>
-                  </button>` :
-                  `<button class="btn-wishlist btn-sm" onclick="addToWishlist('${element._id}', this)">
-                    <i class="ci-heart"></i>
-                  </button>`}
-                    
-                    <a class="card-img-top d-block overflow-hidden pt-5" style="height: 19rem;"  href="/productdetailes?id=${element._id}"><img  width="250" height="250" src="/images/${element.image[0]}" alt="Product"></a>
-                    <div class="card-body py-2">
-                      <a class="product-meta d-block fs-xs pb-1" href="#">${element.category.categoryname}</a>
-                      <h3 class="product-title fs-sm overflow-hidden" style="height: 1rem;" ><a href="">${element.product}</a></h3>
-                      <div class="d-flex justify-content-between">
-                        <div class="product-price"><span class="text-accent"><small>Rs.</small>${element.price}/-</span></div>
-                        <div class="product-heart"><a href="#" class="heart-icon"></a></div>
+                  products.innerHTML += `
+                    <div class="col-md-4 col-sm-6 px-2 mb-4">
+                      <div class="card product-card">
+                        ${JSON.stringify(response.wishId).includes(element._id) ? 
+                        `<button class="btn-wishlist btn-sm" onclick="addToWishlist('${element._id}', this)">
+                          <i class="ci-heart-filled text-danger"></i>
+                        </button>` :
+                        `<button class="btn-wishlist btn-sm" onclick="addToWishlist('${element._id}', this)">
+                          <i class="ci-heart"></i>
+                        </button>`}
+                          
+                          <a class="card-img-top d-block overflow-hidden pt-5" style="height: 19rem;"  href="/productdetailes?id=${element._id}"><img  width="250" height="250" src="/images/${element.image[0]}" alt="Product"></a>
+                          <div class="card-body py-2">
+                            <a class="product-meta d-block fs-xs pb-1" href="#">${element.category.categoryname}</a>
+                            <h3 class="product-title fs-sm overflow-hidden" style="height: 1rem;" ><a href="">${element.product}</a></h3>
+                            <div class="d-flex justify-content-between">
+                              <div class="product-price"><span class="text-accent"><small>Rs.</small>${element.price}/-</span></div>
+                              <div class="product-heart"><a href="#" class="heart-icon"></a></div>
+                            </div>
+                          </div>
+                          <div class="card-body">
+                            <a class="btn btn-secondary btn-sm d-block w-100 mb-2" onclick="addCart('${element._id}')" type="button"><i class="ci-cart fs-sm me-1"></i>Add to Cart</a>
+                          </div>
+                      
                       </div>
                     </div>
-                    <div class="card-body card-body-hidden">
-                      <a class="btn btn-primary btn-sm d-block w-100 mb-2" onclick="addCart('${element._id}')" type="button"><i class="ci-cart fs-sm me-1"></i>Add to Cart</a>
-                    </div>
-                
-                </div>
-              </div>
-              <hr class="d-sm-none">
-            </div>
-            `;
+                    <hr class="d-sm-none">
+                  </div>
+                  `;
 
-            // Add click event listener to heart icon
-            const heartIcon = products.querySelector('.heart-icon');
-            heartIcon.addEventListener('click', () => {
-              heartIcon.classList.toggle('filled');
-            });
-          });
+                  // Add click event listener to heart icon
+                  const heartIcon = products.querySelector('.heart-icon');
+                  heartIcon.addEventListener('click', () => {
+                    heartIcon.classList.toggle('filled');
+                  });
+                });
               }else{
-                products.innerHTML = null;
-                response.product.forEach(element => {
-            products.innerHTML += `
+                  products.innerHTML = null;
+                  response.product.forEach(element => {
+                  products.innerHTML += `
+                    <div class="col-md-4 col-sm-6 px-2 mb-4">
+                      <div class="card product-card">
+                        <a class="btn-wishlist btn-sm" href="/login">
+                                <i class="ci-heart"></i>
+                          <a class="card-img-top d-block overflow-hidden pt-5" style="height: 19rem;"  href="/productdetailes?id=${element._id}"><img  width="250" height="250"  src="/images/${element.image[0]}" alt="Product"></a>
+                          <div class="card-body py-2">
+                            <a class="product-meta d-block fs-xs pb-1" href="#">${element.category.categoryname}</a>
+                            <h3 class="product-title fs-sm overflow-hidden" style="height: 1rem;" ><a href="">${element.product}</a></h3>
+                            <div class="d-flex justify-content-between">
+                              <div class="product-price"><span class="text-accent"><small>Rs.</small>${element.price}/-</span></div>
+                              <div class="product-heart"><a href="#" class="heart-icon"></a></div>
+                            </div>
+                          </div>
+                          <div class="card-body">
+                            <a class="btn btn-secondary btn-sm d-block w-100 mb-2" href="/login" type="button"><i class="ci-cart fs-sm me-1"></i>Add to Cart</a>
+                          </div>
+                      
+                      </div>
+                    </div>
+                    <hr class="d-sm-none">
+                  </div>
+                  `;
+
+
+                  });
+                }
+            })
+        })
+      }
+
+
+  //script for category filtering
+  function category(id,page){
+    $.ajax({
+      url:"/category",
+      method:'post',
+      data:{
+        id:id,
+        page:page,
+        
+      },success:(response=>{
+
+        $('#category_id').val(response.category._id)
+
+        let products = document.getElementById('products-products')
+        $('#hidden').hide()
+        if (response.wishId) {
+          products.innerHTML = null;
+          response.productDatas.forEach(element => {
+          products.innerHTML += `
+            <div class="col-md-4 col-sm-6 px-2 mb-4">
+              <div class="card product-card">
+                ${JSON.stringify(response.wishId).includes(element._id) ? 
+                `<button class="btn-wishlist btn-sm" onclick="addToWishlist('${element._id}', this)">
+                  <i class="ci-heart-filled text-danger"></i>
+                </button>` :
+                `<button class="btn-wishlist btn-sm" onclick="addToWishlist('${element._id}', this)">
+                  <i class="ci-heart"></i>
+                </button>`}
+                  
+                  <a class="card-img-top d-block overflow-hidden pt-5" style="height: 19rem;"  href="/productdetailes?id=${element._id}"><img  width="250" height="250" src="/images/${element.image[0]}" alt="Product"></a>
+                  <div class="card-body py-2">
+                    <a class="product-meta d-block fs-xs pb-1" href="#">${element.category.categoryname}</a>
+                    <h3 class="product-title fs-sm overflow-hidden" style="height:1rem;" ><a href="">${element.product}</a></h3>
+                    <div class="d-flex justify-content-between">
+                      <div class="product-price"><span class="text-accent"><small>Rs.</small>${element.price}/-</span></div>
+                      <div class="product-heart"><a href="#" class="heart-icon"></a></div>
+                    </div>
+                  </div>
+                  <div class="card-body">
+                    <a class="btn btn-secondary btn-sm d-block w-100 mb-2" onclick="addCart('${element._id}')" type="button"><i class="ci-cart fs-sm me-1"></i>Add to Cart</a>
+                  </div>
+              
+              </div>
+            </div>
+            <hr class="d-sm-none">
+          </div>
+          `;
+
+          // Add click event listener to heart icon
+          const heartIcon = products.querySelector('.heart-icon');
+          heartIcon.addEventListener('click', () => {
+            heartIcon.classList.toggle('filled');
+          });
+        });
+      }else{
+        products.innerHTML = null;
+        response.productDatas.forEach(element => {
+          products.innerHTML += `
               <div class="col-md-4 col-sm-6 px-2 mb-4">
                 <div class="card product-card">
                   <a class="btn-wishlist btn-sm" href="/login">
@@ -281,8 +347,8 @@ searchInput.addEventListener('input', (event) => {
                         <div class="product-heart"><a href="#" class="heart-icon"></a></div>
                       </div>
                     </div>
-                    <div class="card-body card-body-hidden">
-                      <a class="btn btn-primary btn-sm d-block w-100 mb-2" href="/login" type="button"><i class="ci-cart fs-sm me-1"></i>Add to Cart</a>
+                    <div class="card-body">
+                      <a class="btn btn-secondary btn-sm d-block w-100 mb-2" href="/login" type="button"><i class="ci-cart fs-sm me-1"></i>Add to Cart</a>
                     </div>
                 
                 </div>
@@ -290,160 +356,59 @@ searchInput.addEventListener('input', (event) => {
               <hr class="d-sm-none">
             </div>
             `;
-
-
           });
-              }
-                        })
-        }).then((data)=>{
-
-        })
-      }
-
-
-
-
-  function category(id,page){
-  $.ajax({
-    url:"/category",
-    method:'post',
-    data:{
-      id:id,
-      page:page,
-      
-    },success:(response=>{
-
-      $('#category_id').val(response.category._id)
-
-      let products = document.getElementById('products-products')
-     $('#hidden').hide()
-     if (response.wishId) {
-   
-      products.innerHTML = null;
-      response.productDatas.forEach(element => {
-  products.innerHTML += `
-    <div class="col-md-4 col-sm-6 px-2 mb-4">
-      <div class="card product-card">
-        ${JSON.stringify(response.wishId).includes(element._id) ? 
-        `<button class="btn-wishlist btn-sm" onclick="addToWishlist('${element._id}', this)">
-           <i class="ci-heart-filled text-danger"></i>
-         </button>` :
-        `<button class="btn-wishlist btn-sm" onclick="addToWishlist('${element._id}', this)">
-           <i class="ci-heart"></i>
-         </button>`}
-          
-          <a class="card-img-top d-block overflow-hidden pt-5" style="height: 19rem;"  href="/productdetailes?id=${element._id}"><img  width="250" height="250" src="/images/${element.image[0]}" alt="Product"></a>
-          <div class="card-body py-2">
-            <a class="product-meta d-block fs-xs pb-1" href="#">${element.category.categoryname}</a>
-            <h3 class="product-title fs-sm overflow-hidden" style="height:1rem;" ><a href="">${element.product}</a></h3>
-            <div class="d-flex justify-content-between">
-              <div class="product-price"><span class="text-accent"><small>Rs.</small>${element.price}/-</span></div>
-              <div class="product-heart"><a href="#" class="heart-icon"></a></div>
-            </div>
-          </div>
-          <div class="card-body card-body-hidden">
-            <a class="btn btn-primary btn-sm d-block w-100 mb-2" onclick="addCart('${element._id}')" type="button"><i class="ci-cart fs-sm me-1"></i>Add to Cart</a>
-          </div>
-       
-      </div>
-    </div>
-    <hr class="d-sm-none">
-  </div>
-  `;
-
-  // Add click event listener to heart icon
-  const heartIcon = products.querySelector('.heart-icon');
-  heartIcon.addEventListener('click', () => {
-    heartIcon.classList.toggle('filled');
-  });
-});
-     }else{
-      products.innerHTML = null;
-      response.productDatas.forEach(element => {
-  products.innerHTML += `
-    <div class="col-md-4 col-sm-6 px-2 mb-4">
-      <div class="card product-card">
-        <a class="btn-wishlist btn-sm" href="/login">
-                <i class="ci-heart"></i>
-          <a class="card-img-top d-block overflow-hidden pt-5" style="height: 19rem;"  href="/productdetailes?id=${element._id}"><img  width="250" height="250"  src="/images/${element.image[0]}" alt="Product"></a>
-          <div class="card-body py-2">
-            <a class="product-meta d-block fs-xs pb-1" href="#">${element.category.categoryname}</a>
-            <h3 class="product-title fs-sm overflow-hidden" style="height: 1rem;" ><a href="">${element.product}</a></h3>
-            <div class="d-flex justify-content-between">
-              <div class="product-price"><span class="text-accent"><small>Rs.</small>${element.price}/-</span></div>
-              <div class="product-heart"><a href="#" class="heart-icon"></a></div>
-            </div>
-          </div>
-          <div class="card-body card-body-hidden">
-            <a class="btn btn-primary btn-sm d-block w-100 mb-2" href="/login" type="button"><i class="ci-cart fs-sm me-1"></i>Add to Cart</a>
-          </div>
-       
-      </div>
-    </div>
-    <hr class="d-sm-none">
-  </div>
-  `;
-
-
-});
-     }
-     
-
-
+        }
+      })
     })
-  }).then((data)=>{
+  }
 
-  })
-
-
-}
 
 // script for add product to cart
 
 
   function addCart(id){
- axios.get(`/addcart?id=${id}`).then((response)=>{
-   if(response.data.status){
-     const Toast = Swal.mixin({
-   toast: true,
-   position: 'top-end',
-   showConfirmButton: false,
-   timer: 3000,
-   timerProgressBar: true,
-   didOpen: (toast) => {
-     toast.addEventListener('mouseenter', Swal.stopTimer)
-     toast.addEventListener('mouseleave', Swal.resumeTimer)
-   }
- })
- 
- Toast.fire({
-   icon: 'success',
-   title: 'Added to Cart'
- })
-   }else{
-     const Toast = Swal.mixin({
-   toast: true,
-   position: 'top-end',
-   showConfirmButton: false,
-   timer: 4000,
-   timerProgressBar: true,
-   didOpen: (toast) => {
-     toast.addEventListener('mouseenter', Swal.stopTimer)
-     toast.addEventListener('mouseleave', Swal.resumeTimer)
-   }
- })
- 
- Toast.fire({
-   icon: 'error',
-   title: 'You already added this product'
- }) 
-   }
- })                    
-   }
+    axios.get(`/addcart?id=${id}`).then((response)=>{
+    if(response.data.status){
+      const Toast = Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+          toast.addEventListener('mouseenter', Swal.stopTimer)
+          toast.addEventListener('mouseleave', Swal.resumeTimer)
+        }
+      })
+  
+      Toast.fire({
+        icon: 'success',
+        title: 'Added to Cart'
+      })
+    }else{
+      const Toast = Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 4000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+          toast.addEventListener('mouseenter', Swal.stopTimer)
+          toast.addEventListener('mouseleave', Swal.resumeTimer)
+        }
+      })
+  
+      Toast.fire({
+        icon: 'error',
+        title: 'You already added this product'
+      }) 
+    }
+  })                    
+}
 
  </script>
 
- <!-- search -->
+  // to search
   <script src="vendor/smooth-scroll/dist/smooth-scroll.polyfills.min.js"></script>
   <script src="js/theme.min.js"></script>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

@@ -34,22 +34,22 @@ const order=new mongoose.Schema({
     status:String,
     address:{
             name:{
-                type:String
+                type:String,
             },
             phone:{
-                type:Number
+                type:Number,
             },
             houseName:{
-                type:String
+                type:String,
             },
             city:{
-                type:String 
+                type:String,
             },
             pin:{
-                type:Number
+                type:Number,
             },
             distrit:{
-                type:String
+                type:String,
             }
         },
         totalprice:{

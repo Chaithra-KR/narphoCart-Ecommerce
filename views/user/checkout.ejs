@@ -49,6 +49,18 @@
             </div>
               <h3 class="fw-normal my-4 text-center"><span>₹</span><span id="totalPrice"><%=addressDatas.cart.totalprice %></span><span>/-</span></h3>
           </div>
+          <div data-simplebar style="width:280px;">
+            <% productDatas.cart.items.forEach(element => {%>                        
+                <div class="widget mb-1 border-bottom" >
+                  <div class="d-flex align-items-center"><img src="/images/<%=element.products.image[0] %>" width="64" alt="Product">
+                    <div>
+                      <h6 class="widget-product-title"><%=element.products.product %></h6>
+                      <div class="widget-product-meta"><span class="text-accent me-2">Rs.<%=element.price %></span><span class="text-muted">x <%=element.quantity %></span></div>
+                    </div>
+                  </div>
+                </div>
+            <%}); %>
+          </div>
         </div>
       </div>
     </aside>
@@ -224,37 +236,45 @@
                                 </div>
                                 <div class="d-flex justify-content-end ">
                                 </div>
-                      
-
-                            <!-- products in cart-->
-
-                            
-                            
                           </div>
                   
-
+                         
                           <!-- payment methods -->
 
                           <h2 class="h6 pt-1 pb-3 mb-3 border-bottom">Payment Methods</h2>
-                          <div class="d-flex justify-content-between mb-3" style=" width: 14.5rem;">
+                          <!-- <div class="d-flex justify-content-between mb-3" style=" width: 14.5rem;"> -->
+                             <!-- wallet -->
+                          <% if(productDatas.wallet >=productDatas.cart.totalprice){ %>
+                            <div class="form-check">
+                              <span style="color: rgb(64, 58, 179);"> <i class="ci-wallet opacity-60 me-2"></i>
+                                 Wallet fund is available . Select to Use </span>
+                                <input type="radio" checked  id="payment" name="payment"  value="wallet" >
+                                <span class="checkmark"></span>
+                            </div>
+                          <% } %>
                             <!-- cash on delivery -->
                             <div class="form-check">
                               <label for="payment"  >
-                                Cash on delivery
-                                <input type="radio" id="payment" name="payment" value="COD" >
+                                <i class="ci-coin opacity-60 me-2"></i> Cash on delivery
+                                <input type="radio"  id="payment" name="payment" value="COD">
                                 <span class="checkmark"></span>
                               </label>
                             </div>
                             <!-- razorpay -->
                             <div class="form-check">
-                              <label for="paypal">
-                                razorpay
+                              <label for="paypal" class="d-flex">
+                                <div class="material-symbols-outlined me-2 opacity-60">
+                                  payments
+                                </div>
+                                <div>
+                                  Online payment
                                 <input type="radio" id="paypal" name="payment" value="razorpay">
                                 <span class="checkmark"></span>
+                                </div> 
                               </label>
                             </div>
-
-                          </div>
+                            
+                          <!-- </div> -->
 
                           <button  class="btn btn-success d-block w-100 mt-4"><i class=" fs-lg me-2"></i>Place order</button>
                       </form>
@@ -267,7 +287,8 @@
   </div>
 </div>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 
 <script>
   function deleteItem(id) {
@@ -398,8 +419,9 @@
 
           if(response.COD){
             location.href="/codsuccess";
+          }if(response.wallet){
+            location.href="/success";
           }else{
-            console.log('starting rozopay-----',response.amount);
             razorPayment(response)
         
           }

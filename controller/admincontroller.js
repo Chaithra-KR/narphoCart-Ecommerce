@@ -10,7 +10,6 @@ const { model, models } = require("mongoose");
 
 // admin's login startted
 const doLogin = async (req, res) => {
-    console.log("admin login page is existed");
     try {
         if (req.session.adminId) {
             res.redirect("/admin/dashboard")
@@ -38,7 +37,6 @@ const verifyLogin = async (req, res) => {
         const password = req.body.password;
 
         const adminData = await Admin.findOne({ email: email })
-        console.log(adminData);
         if (adminData) {
             if (password === adminData.password) {
                 req.session.adminId = adminData._id;
@@ -83,7 +81,6 @@ const getDashboard = async (req, res) => {
                         subtotal:{$sum:"$totalprice"}
                     }
                 }])
-            console.log(revenue,"revenue");
             res.render("dashboard", { adminSession ,totalDelivery,totalOrder,totalUsers,
                 category,products,sale,Ordered,Delivered,Canceled,
                 returnProcessing,Returned,OrderData,revenue})
@@ -148,7 +145,6 @@ const clickUnblock = async (req, res) => {
 const getCategory = async (req, res) => {
     try {
         const categoryDatas = await Category.find()
-        console.log(categoryDatas);
         res.render("category-management", { categoryDatas })
     } catch (error) {
         console.log(error.message);
@@ -181,7 +177,6 @@ const insertCategory = async (req, res) => {
             const categoryData = await category.save();
 
             res.redirect("/admin/category")
-            console.log("The new category is added successfully");
 
         }
     } catch (error) {
@@ -194,7 +189,6 @@ const getEditcategory = async (req, res) => {
     try {
         const id = req.query.id
         const categoryDatas =await Category.findOne({_id:id})
-        console.log(categoryDatas,"here the category datas");
         res.render("edit-category", {categoryDatas })
     } catch (error) {
         console.log(error.message);
@@ -227,8 +221,8 @@ const doEditcategory = async (req, res) => {
 //to delete product
 const deleteCategory = async(req,res)=>{
     try {
-        const id = req.query.id
-        const dropData = await Category.findByIdAndUpdate({_id:id},{$set:{isDelete:true}})
+        const  id=req.query.id;
+        const dropData = await Category.findByIdAndDelete({_id:id})
         res.redirect('/admin/category')   
     } catch (error) {
         console.log(error.message);
@@ -240,7 +234,6 @@ const deleteCategory = async(req,res)=>{
 const getProduct = async (req, res) => {
     try {
         const productDatas = await Product.find({isDelete:false}).populate("category")
-        console.log(productDatas[0], "populated");
         res.render("product-management", { productDatas })
     } catch (error) {
         console.log(error.message);
@@ -281,7 +274,6 @@ const insertProduct = async (req, res) => {
             }
             return files;
         })()
-        console.log(files,"this is image")
 
         const product = new Product({
             product: req.body.product,
@@ -296,43 +288,16 @@ const insertProduct = async (req, res) => {
         const checkProduct = await Product.findOne({ product: req.body.product })
         if (checkProduct) {
             res.redirect("/admin/productmanagement")
-            console.log("Sorry this product is already exists");
         } else {
             const productData = await product.save();
             res.redirect("/admin/productmanagement")
-            console.log("The new product is uploaded successfully");
         }}
     } catch (error) {
         console.log(error.message);
     }
 }
 
-// actual product management
-// const insertProduct = async (req, res) => {
-//     try {
-//         const product = new Product({
-//             product: req.body.product,
-//             category: req.body.categoryName,
-//             image: req.file.filename,
-//             description: req.body.description,
-//             stock: req.body.stock,
-//             status: req.body.status,
-//             price: req.body.price
-//         })
 
-//         const checkProduct = await Product.findOne({ product: req.body.product })
-//         if (checkProduct) {
-//             res.redirect("/admin/productmanagement")
-//             console.log("Sorry this product is already exists");
-//         } else {
-//             const productData = await product.save();
-//             res.redirect("/admin/productmanagement")
-//             console.log("The new product is uploaded successfully");
-//         }
-//     } catch (error) {
-//         console.log(error.message);
-//     }
-// }
 
 //get edit product detailes
 const getEditproduct = async (req, res) => {
@@ -340,7 +305,6 @@ const getEditproduct = async (req, res) => {
         const id = req.query.id
         const productDatas = await Product.findOne({ _id: id }).populate("category")
         const categoryDatas =await Category.find()
-        console.log(productDatas,"productDatas at edit product");
         res.render("edit-product", { productDatas,categoryDatas })
     } catch (error) {
         console.log(error.message);
@@ -351,29 +315,27 @@ const getEditproduct = async (req, res) => {
 const doEditProduct = async (req, res) => {
     try {
        
-        // let files = []
-        // const imageUpload = await (function () {
-        //     for (let i = 0; i < req.files.length; i++) {
-        //         files[i] = req.files[i].filename
-        //     }
-        //     return files;
-        // })()
+        let files = []
+        const imageUpload = await (function () {
+            for (let i = 0; i < req.files.length; i++) {
+                files[i] = req.files[i].filename
+            }
+            return files;
+        })()
 
         const id = req.query.id;
-        console.log(id,'idddddddddduuu');
         const product = req.body.product;
         const description = req.body.description;
-        // const image = imageUpload;
+        const image = imageUpload;
         const categoryname = req.body.categoryName;
         const category = await Category.findOne({_id:categoryname})
-        console.log(category.categoryname,"999");
         const price = req.body.price;
         const status = req.body.status;
         const stock = req.body.stock;
         const editDetailes = await Product.updateOne({ _id: id },{ $set: {
             product: product,
             description: description,
-            // image: image,
+            image: image,
             category: categoryname,
             price: price,
             status: status,
@@ -417,8 +379,8 @@ const patchImage = async(req,res)=>{
         //     // Remove the oldest image and append the new image IDs
         //     imageUpload = [...imageUpload.slice(1), ...newImageIds];
         // }
-        const id = req.query.id;
-        let files = []
+        // const id = req.query.id;
+        // let files = []
         
         const imageUpload = await (function () {
             for (let i = 0; i < req.files.length; i++) {
@@ -430,7 +392,7 @@ const patchImage = async(req,res)=>{
         const image = imageUpload;
          const productDatas = await Product.findOne({ _id: id }).populate("category")
              const categoryDatas =await Category.find()
-        const editDetailes = await Product.updateOne({ _id: id },{ $set: {
+        const editDetailes = await Product.updateOne({ _id: id },{ $push: {
             image: image,
         }
     }).then((val)=>{
@@ -476,7 +438,6 @@ const clickUnlist = async (req, res) => {
 const deleteProduct = async(req,res)=>{
     try {
         const id = req.params.id;
-        console.log("params id: @ deleteproduct ",id);
         const dropData = await Product.findByIdAndUpdate({_id:id},{$set:{isDelete:true}});
         dropData.save().then(() => {
             res.json("success");
@@ -493,7 +454,6 @@ const getCoupon = async(req,res)=>{
     //   if(req.session.adminId){
         // let id = req.session.adminId;
       const couponDatas = await Coupon.find()
-      console.log(couponDatas,"couponn data here");
       res.render("coupon-management",{couponDatas})   
     //   }
     } catch (error) {
@@ -512,14 +472,12 @@ const getAddcoupon = async(req,res)=>{
 //add coupon
 const addCoupon = async(req,res)=>{
     try {
-        console.log("hello this is coupon");
         const coupon = new Coupon({
             couponCode:req.body.couponCode,
             amount:req.body.amount,
             minAmount:req.body.minAmount,
             exp:req.body.exp
         })
-       console.log("it is here");
 
        const couponData = coupon.save().then((data)=>{
         res.redirect("/admin/coupon");
@@ -533,7 +491,6 @@ const addCoupon = async(req,res)=>{
 const getEditcoupon = async(req,res)=>{
     try {
         const id = req.params.id;
-        console.log(id,"id here");
         const couponDatas = await Coupon.findOne({_id:id})
         res.render("edit-coupon",{couponDatas})
     } catch (error) {
@@ -546,7 +503,6 @@ const getEditcoupon = async(req,res)=>{
 const   doEditcoupon = async(req,res)=>{
     try {
         const id =req.params.id
-        console.log(id,'herreeeeeeee id');
         const couponCode=req.body.couponCode
         const amount=req.body.amount
         const minAmount=req.body.minAmount
@@ -568,7 +524,6 @@ const   doEditcoupon = async(req,res)=>{
 const deleteCoupon = async(req,res)=>{
     try {
         const id = req.params.id;
-        console.log("params id: @ deletecoupon ",id);
         const dropData = await Coupon.findByIdAndUpdate({_id:id},{$set:{isDelete:true}});
         dropData.save().then(() => {
             res.json("success");
@@ -722,7 +677,6 @@ const adminLogout = async (req, res) => {
     try {
         req.session.adminId="";
         res.redirect("/admin/adminlogin")
-        console.log("session destroyed & dashboard page exited");
     } catch (error) {
         console.log(error.message);
     }

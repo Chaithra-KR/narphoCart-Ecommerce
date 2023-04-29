@@ -3,8 +3,8 @@
 
   <section class="col-lg-8 pt-lg-4 pb-4 mb-3">
     <div class="pt-2 px-4 ps-lg-0 pe-xl-5">
-      <div class="container-fluid" style="display: flex; justify-content: space-between;">
-        <p class="h3 pt-2 pb-4 mb-1 " style="font-family:Arial, Helvetica, sans-serif">Order management</p>      
+      <div class="container-fluid " style="display: flex; justify-content: space-between;">
+        <p class="h2 pt-2 pb-4 mb-0  text-center text-sm-start ">Order management</p>
       </div>
       <table class="table" id="order">
               <thead>
@@ -33,7 +33,7 @@
                     <p><small><%=orderDatas.address.city +',' +orderDatas.address.distrit+','+orderDatas.address.pin%>&nbsp;(pin)</small></p>
                   </td>
                   <td>
-                    
+                 
                     
                     <%if(orderDatas.status=="ordered"){%>
                         <small class="badge bg-info m-0"><%=orderDatas.status %></small>
