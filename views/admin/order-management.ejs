@@ -32,22 +32,35 @@
                     <p><small><%=orderDatas.address.houseName%>(H),</small></p>
                     <p><small><%=orderDatas.address.city +',' +orderDatas.address.distrit+','+orderDatas.address.pin%>&nbsp;(pin)</small></p>
                   </td>
-                  <td>
-                 
+
+                 <td>
+                  <%if(orderDatas.status=="ordered"){%>
+                    <small class="badge bg-info m-2"><%=orderDatas.status %></small>
+                  <%}else if(orderDatas.status=="Delivered"){%>
+                    <small class="badge bg-success m-2"><%=orderDatas.status %></small>
+                  <% } else if(orderDatas.status=="cancel") {%>    
+                    <small class="badge bg-primary m-2">Order Cancelled</small>
+                  <% } else if(orderDatas.status=="Return processing") {%>  
+                    <small class="badge bg-info m-2">Return request</small>
+                  <% }else if(orderDatas.status=="returned"){ %>
+                    <small class="badge bg-warning m-2">Returned</small>
+                  <% } %>    
+
+                  <% if (orderDatas.status=="cancel") {%>
+                    <%} else if(orderDatas.status=="returned") {%>
+                    <% }else{ %>
+                  <div class="btn-group">
+                    <button type="button" class="btn btn-secondary btn-sm d-flex align-items-center justify-content-center"  style="width: 70px;height: 25px; font-size: 10px; cursor: pointer;">Action</button>
+                    <button type="button" class="btn btn-info dropdown-toggle dropdown-toggle-split btn-sm d-flex align-items-center justify-content-center"  style="width: 5px;height: 25px; font-size: 10px; cursor: pointer;" data-bs-toggle="dropdown" aria-expanded="false">
+                      <span class="visually-hidden">Toggle Dropdown</span>
+                    </button>
                     
-                    <%if(orderDatas.status=="ordered"){%>
-                        <small class="badge bg-info m-0"><%=orderDatas.status %></small>
-                        <button type="button" onclick="orderStatuss('<%=orderDatas._id%>')" class="btn btn-primary btn-sm d-flex align-items-center justify-content-center " style="width: 70px;height: 25px; font-size: 10px; cursor: pointer;">Delivered</button>
-                    <%}else if(orderDatas.status=="Delivered"){%>
-                        <small class="badge bg-success m-0"><%=orderDatas.status %></small>
-                    <% } else if(orderDatas.status=="cancel") {%>
-                        <small class="badge bg-primary m-0">Order Cancelled</small>
-                    <% } else if(orderDatas.status=="Return processing") {%>  
-                        <small class="badge bg-info m-0">Return request</small>
-                        <button type="button" onclick="orderReturnSts('<%=orderDatas._id%>')" class="btn btn-primary btn-sm d-flex align-items-center justify-content-center " style="width: 90px;height: 25px; font-size: 10px; cursor: pointer;">confirm return</button>
-                    <% }else if(orderDatas.status=="returned"){ %>
-                        <small class="badge bg-warning m-0">Returned</small>
-                    <% } %>
+                    <ul class="dropdown-menu">
+                      <li><a class="dropdown-item" style="width: 5px;height: 25px; font-size: 10px; cursor: pointer;" onclick="orderStatuss('<%=orderDatas._id%>')">Confirm Delivery</a></li>
+                      <li><a class="dropdown-item" style="width: 5px;height: 25px; font-size: 10px; cursor: pointer;" onclick="orderReturnSts('<%=orderDatas._id%>')">Confirm Return</a></li>
+                    </ul>
+                  </div>
+                  <% } %>
 
                   </td>
                   <td><small><%=orderDatas.paymentMethod %></small></td>
